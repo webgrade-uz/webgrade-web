@@ -1,0 +1,191 @@
+import React, { useState } from "react";
+import { Send, MessageCircle, User, Phone, FileText, ChevronDown, Sparkles } from "lucide-react";
+import { useLanguage } from "../i18n/LanguageContext";
+
+const Contact = () => {
+  const { t } = useLanguage();
+  const [formData, setFormData] = useState({
+    name: "",
+    phone: "",
+    service: "",
+    message: "",
+  });
+  const [isLoading, setIsLoading] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
+  const [error, setError] = useState("");
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+    setError("");
+
+    const BOT_TOKEN = import.meta.env.VITE_TELEGRAM_BOT_TOKEN;
+    const CHAT_ID = import.meta.env.VITE_TELEGRAM_CHAT_ID;
+
+    const text = `🚀 Yangi so'rov!
+
+👤 Ism: ${formData.name}
+📞 Telefon: ${formData.phone}
+🛠 Xizmat: ${formData.service}
+💬 Xabar: ${formData.message}
+
+📅 Sana: ${new Date().toLocaleString("uz-UZ")}`;
+
+    try {
+      const response = await fetch(
+        `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            chat_id: CHAT_ID,
+            text: text,
+          }),
+        }
+      );
+
+      const data = await response.json();
+
+      if (data.ok) {
+        setIsSuccess(true);
+        setFormData({ name: "", phone: "", service: "", message: "" });
+      } else {
+        setError(t.contact.error);
+      }
+    } catch (err) {
+      setError(t.contact.networkError);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  return (
+    <section id="contact" className="bg-[#000000] text-white py-20 px-6 md:px-20 min-h-screen flex items-center">
+      <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 items-center w-full">
+        <div>
+          <span className="inline-flex items-center gap-2 text-[#989898] text-sm font-medium tracking-widest uppercase mb-4">
+            <Sparkles className="w-4 h-4" />
+            {t.contact.badge}
+          </span>
+          <h2 className="text-4xl md:text-5xl font-bold mb-6 leading-tight">
+            {t.contact.title}
+          </h2>
+          <p className="text-[#989898] text-lg mb-8 max-w-md">
+            {t.contact.description}
+          </p>
+          <a
+            href="https://t.me/webgrade_uz"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 border border-white text-white px-6 py-3 rounded-xl hover:bg-white hover:text-[#000000] transition"
+          >
+            <Send className="w-5 h-5" />
+            {t.contact.telegram}
+          </a>
+        </div>
+
+        <div className="bg-[#111111] p-8 md:p-10 rounded-3xl border border-[#989898]/10 shadow-2xl">
+          {isSuccess ? (
+            <div className="text-center py-10">
+              <div className="w-20 h-20 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-6">
+                <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                </svg>
+              </div>
+              <h3 className="text-2xl font-bold mb-3">{t.contact.success}</h3>
+              <p className="text-[#989898]">{t.contact.successDesc}</p>
+            </div>
+          ) : (
+            <>
+              <h3 className="text-xl font-semibold mb-6">{t.contact.formTitle}</h3>
+
+              {error && (
+                <div className="bg-red-500/10 border border-red-500/30 text-red-400 px-4 py-3 rounded-xl mb-4 text-sm">
+                  {error}
+                </div>
+              )}
+
+              <form onSubmit={handleSubmit} className="flex flex-col gap-5">
+                <div className="relative group">
+                  <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#989898] group-focus-within:text-white transition" />
+                  <input
+                    type="text"
+                    placeholder={t.contact.name}
+                    className="w-full bg-[#1a1a1a] text-white pl-12 pr-4 py-4 rounded-xl outline-none focus:ring-2 ring-white/30 border border-[#989898]/10 focus:border-white/30 placeholder-[#989898] transition"
+                    value={formData.name}
+                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                    required
+                  />
+                </div>
+
+                <div className="relative group">
+                  <Phone className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#989898] group-focus-within:text-white transition" />
+                  <input
+                    type="tel"
+                    placeholder={t.contact.phone}
+                    className="w-full bg-[#1a1a1a] text-white pl-12 pr-4 py-4 rounded-xl outline-none focus:ring-2 ring-white/30 border border-[#989898]/10 focus:border-white/30 placeholder-[#989898] transition"
+                    value={formData.phone}
+                    onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                    required
+                  />
+                </div>
+
+                <div className="relative group">
+                  <FileText className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#989898] group-focus-within:text-white transition" />
+                  <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#989898] pointer-events-none" />
+                  <select
+                    className="w-full bg-[#1a1a1a] text-white pl-12 pr-10 py-4 rounded-xl outline-none focus:ring-2 ring-white/30 border border-[#989898]/10 focus:border-white/30 appearance-none cursor-pointer transition"
+                    value={formData.service}
+                    onChange={(e) => setFormData({ ...formData, service: e.target.value })}
+                    required
+                  >
+                    <option value="" disabled hidden>{t.contact.selectService}</option>
+                    {t.contact.serviceOptions.map((option, i) => (
+                      <option key={i} value={option}>{option}</option>
+                    ))}
+                  </select>
+                </div>
+
+                <div className="relative group">
+                  <MessageCircle className="absolute left-4 top-4 w-5 h-5 text-[#989898] group-focus-within:text-white transition" />
+                  <textarea
+                    placeholder={t.contact.message}
+                    rows="4"
+                    className="w-full bg-[#1a1a1a] text-white pl-12 pr-4 py-4 rounded-xl outline-none focus:ring-2 ring-white/30 border border-[#989898]/10 focus:border-white/30 resize-none placeholder-[#989898] transition"
+                    value={formData.message}
+                    onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                    required
+                  ></textarea>
+                </div>
+
+                <button
+                  type="submit"
+                  disabled={isLoading}
+                  className={`font-bold py-4 rounded-xl transition-all flex justify-center items-center gap-2 bg-white hover:bg-[#f1f1f1] text-[#000000] ${isLoading ? "opacity-70 cursor-not-allowed" : ""}`}
+                >
+                  {isLoading ? (
+                    <>
+                      <div className="w-5 h-5 border-2 border-[#000000] border-t-transparent rounded-full animate-spin"></div>
+                      {t.contact.sending}
+                    </>
+                  ) : (
+                    <>
+                      <Send className="w-5 h-5" />
+                      {t.contact.submit}
+                    </>
+                  )}
+                </button>
+              </form>
+
+              <p className="text-[#989898] text-xs text-center mt-6">
+                {t.contact.privacy}
+              </p>
+            </>
+          )}
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default Contact;
