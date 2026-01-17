@@ -1,22 +1,19 @@
 import { useState, useEffect } from "react";
-import { Menu, X, ChevronDown } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { useLanguage } from "../i18n/LanguageContext";
 import Logo from "../assets/Webgrade.svg";
 
-const languages = [
-  { code: "uz", label: "UZ", flag: "🇺🇿" },
-  // { code: "ru", label: "RU", flag: "🇷🇺" },
-  // { code: "en", label: "EN", flag: "🇬🇧" },
-];
+// const languages = [
+//   { code: "uz", label: "UZ", flag: "🇺🇿" },
+//   { code: "ru", label: "RU", flag: "🇷🇺" },
+//   { code: "en", label: "EN", flag: "🇬🇧" },
+// ];
 
 const Header = () => {
-  const { language, changeLanguage, t } = useLanguage();
+  const { t } = useLanguage();
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
-  const [langOpen, setLangOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("hero");
-
-  const currentLang = languages.find((l) => l.code === language);
 
   const scrollToSection = (e, sectionId) => {
     e.preventDefault();
