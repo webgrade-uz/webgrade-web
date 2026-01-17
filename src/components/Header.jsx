@@ -5,8 +5,8 @@ import Logo from "../assets/Webgrade.svg";
 
 const languages = [
   { code: "uz", label: "UZ", flag: "🇺🇿" },
-  { code: "ru", label: "RU", flag: "🇷🇺" },
-  { code: "en", label: "EN", flag: "🇬🇧" },
+  // { code: "ru", label: "RU", flag: "🇷🇺" },
+  // { code: "en", label: "EN", flag: "🇬🇧" },
 ];
 
 const Header = () => {
@@ -99,8 +99,8 @@ const Header = () => {
         </nav>
 
         <div className="flex items-center gap-4">
-          {/* Language Selector */}
-          <div className="relative">
+          {/* Language Selector - Disabled */}
+          {/* <div className="relative">
             <button
               onClick={() => setLangOpen(!langOpen)}
               className="flex items-center gap-1 text-sm px-2 py-1 rounded hover:bg-white/10 transition"
@@ -129,7 +129,7 @@ const Header = () => {
                 ))}
               </div>
             )}
-          </div>
+          </div> */}
 
           <a
             href="#contact"
