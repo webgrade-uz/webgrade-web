@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Send, MessageCircle, User, Phone, FileText, ChevronDown, Sparkles } from "lucide-react";
 import { useLanguage } from "../i18n/LanguageContext";
+import Toast from "./Toast";
 
 const Contact = () => {
   const { t } = useLanguage();
@@ -13,6 +14,16 @@ const Contact = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [error, setError] = useState("");
+  const [toast, setToast] = useState(null);
+
+  useEffect(() => {
+    if (isSuccess) {
+      const timer = setTimeout(() => {
+        setIsSuccess(false);
+      }, 2000);
+      return () => clearTimeout(timer);
+    }
+  }, [isSuccess]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -49,11 +60,12 @@ const Contact = () => {
       if (data.ok) {
         setIsSuccess(true);
         setFormData({ name: "", phone: "", service: "", message: "" });
+        setToast({ message: t.contact.success, type: "success" });
       } else {
-        setError(t.contact.error);
+        setToast({ message: t.contact.error, type: "error" });
       }
     } catch (err) {
-      setError(t.contact.networkError);
+      setToast({ message: t.contact.networkError, type: "error" });
     } finally {
       setIsLoading(false);
     }
@@ -61,6 +73,13 @@ const Contact = () => {
 
   return (
     <section id="contact" className="bg-[#000000] text-white py-20 px-6 md:px-20 min-h-screen flex items-center">
+      {toast && (
+        <Toast
+          message={toast.message}
+          type={toast.type}
+          onClose={() => setToast(null)}
+        />
+      )}
       <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 items-center w-full">
         <div>
           <span className="inline-flex items-center gap-2 text-[#989898] text-sm font-medium tracking-widest uppercase mb-4">
@@ -74,7 +93,7 @@ const Contact = () => {
             {t.contact.description}
           </p>
           <a
-            href="https://t.me/webgrade_uz"
+            href="https://t.me/webgradeuz"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 border border-white text-white px-6 py-3 rounded-xl hover:bg-white hover:text-[#000000] transition"
