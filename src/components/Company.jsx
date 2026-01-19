@@ -1,56 +1,33 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { CheckCircle, Users, Briefcase, Award } from "lucide-react";
 import { useLanguage } from "../i18n/LanguageContext";
 
-const team = [
-  {
-    name: "Muhammadali Khasanov",
-    role: { uz: "Bosh direktor", ru: "Генеральный директор", en: "CEO" },
-    desc: {
-      uz: "Kompaniya asoschisi. IT biznesda 5+ yillik tajriba bilan strategik yo'nalishni belgilaydi.",
-      ru: "Основатель компании. Определяет стратегическое направление с 5+ летним опытом в IT-бизнесе.",
-      en: "Company founder. Sets strategic direction with 5+ years of experience in IT business.",
-    },
-    image: "/team/ceo.jpg",
-    badge: "CEO",
-  },
-  {
-    name: "Abdulbosit G'oforaliyev",
-    role: { uz: "Full-Stack Dasturchi", ru: "Full-Stack Разработчик", en: "Full-Stack Developer" },
-    desc: {
-      uz: "React, Next.js, Python, Django, FastAPI, Telegram-botlarda ekspert.",
-      ru: "Эксперт в React, Next.js, Python, Django, FastAPI, Telegram-ботах.",
-      en: "Expert in React, Next.js, Python, Django, FastAPI, Telegram bots.",
-    },
-    image: "/team/dev.jpg",
-    badge: "COO",
-  },
-  {
-    name: "Abbos Pardayev",
-    role: { uz: "Loyiha Menejeri", ru: "Менеджер проектов", en: "Project Manager" },
-    desc: {
-      uz: "Loyihalarni muvaffaqiyatli yetkazib beradi va jamoani boshqaradi.",
-      ru: "Успешно реализует проекты и управляет командой.",
-      en: "Successfully delivers projects and manages the team.",
-    },
-    image: "/team/pm.jpg",
-  },
-  {
-    name: "Shohrux Kuyandikov",
-    role: { uz: "Front-end Dasturchi", ru: "Front-end Разработчик", en: "Front-end Developer" },
-    desc: {
-      uz: "Next.js, React va TypeScript yordamida zamonaviy interfeyslar yaratadi.",
-      ru: "Создает современные интерфейсы с помощью Next.js, React и TypeScript.",
-      en: "Creates modern interfaces using Next.js, React and TypeScript.",
-    },
-    image: "/team/frontend.jpg",
-  },
-];
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
 
 const statIcons = [Briefcase, Users, Award];
 
 const Company = () => {
   const { language, t } = useLanguage();
+  const [employees, setEmployees] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchEmployees();
+  }, []);
+
+  const fetchEmployees = async () => {
+    try {
+      const res = await fetch(`${API_URL}/employee?limit=100`);
+      const data = await res.json();
+      if (data.success) {
+        setEmployees(data.data.reverse());
+      }
+    } catch (err) {
+      console.error('Xodimlarni yuklashda xato:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <section id="about" className="bg-[#f1f1f1]">
@@ -130,32 +107,38 @@ const Company = () => {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            {team.map((member, index) => (
+            {employees.map((member) => (
               <div
-                key={index}
+                key={member.id}
                 className="group relative bg-[#f1f1f1] rounded-2xl p-6 text-center hover:shadow-xl transition-all duration-300"
               >
-                {member.badge && (
+                {member.role && (
                   <span className="absolute top-4 left-4 bg-[#000000] text-white text-xs px-3 py-1 rounded-full font-medium">
-                    {member.badge}
+                    {member.role}
                   </span>
                 )}
 
                 <div className="flex justify-center mb-6">
-                  <img
-                    src={member.image}
-                    alt={member.name}
-                    className="w-28 h-28 rounded-full border-4 border-[#000000] object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
+                  {member.image ? (
+                    <img
+                      src={`${API_URL}${member.image}`}
+                      alt={member.fullName}
+                      className="w-28 h-28 rounded-full border-4 border-[#000000] object-cover group-hover:scale-105 transition-transform duration-300"
+                    />
+                  ) : (
+                    <div className="w-28 h-28 rounded-full border-4 border-[#000000] bg-blue-600 flex items-center justify-center text-white text-3xl font-bold">
+                      {member.fullName.charAt(0)}
+                    </div>
+                  )}
                 </div>
 
                 <h3 className="text-lg font-semibold text-[#000000]">
-                  {member.name}
+                  {member.fullName}
                 </h3>
-                <p className="text-[#989898] text-sm mt-1 font-medium">{member.role[language]}</p>
+                <p className="text-[#989898] text-sm mt-1 font-medium">{member.position}</p>
 
                 <p className="text-[#989898] text-sm mt-4 leading-relaxed">
-                  {member.desc[language]}
+                  {member.about || member.position}
                 </p>
               </div>
             ))}
