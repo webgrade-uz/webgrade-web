@@ -102,8 +102,8 @@ export const translations = {
         // Contact
         contact: {
             badge: "Bog'lanish",
-            title: "Loyihangizni muhokama qilishga tayyormisiz?",
-            description: "Bepul konsultatsiya oling va biznesingiz uchun eng yaxshi IT yechimni birgalikda tanlaylik.",
+            title: "Boshlashga tayyormisiz?",
+            description: "Bepul konsultatsiya, aniq tavsiyalar, hech qanday majburiyat yo‘q.",
             telegram: "Telegram orqali yozish",
             formTitle: "So'rov qoldiring",
             name: "Ismingiz",
@@ -121,7 +121,7 @@ export const translations = {
         },
         // Footer
         footer: {
-            description: "Tez va Samarador IT Yechimlar. Biznesingizni zamonavoy texnologiyalar bilan rivojlantiring.",
+            description: "Biznes uchun tezkor va barqaror IT yechimlar.\nWebgrade — bu saytlar, tizimlar va avtomatlashtirish orqali biznes jarayonlarini soddalashtiruvchi texnologik hamkor.",
             servicesTitle: "Xizmatlar",
             companyTitle: "Kompaniya",
             contactTitle: "Bog'lanish",

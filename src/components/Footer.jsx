@@ -24,7 +24,7 @@ const Footer = () => {
                         <div className="mb-4">
                             <img src={Logo} alt="Webgrade" className="h-8 w-auto brightness-0 invert" />
                         </div>
-                        <p className="text-sm leading-relaxed">
+                        <p className="text-sm leading-relaxed whitespace-pre-line">
                             {t.footer.description}
                         </p>
                     </div>
@@ -86,15 +86,21 @@ const Footer = () => {
                         <ul className="space-y-3 text-sm">
                             <li className="flex items-center gap-2">
                                 <Phone className="w-4 h-4 text-[#f1f1f1]" />
-                                <span>+998 94 161 66 62</span>
+                                <a href="tel:+998973027750" className="hover:text-white transition">
+                                    +998 97 302 77 50
+                                </a>
                             </li>
                             <li className="flex items-center gap-2">
                                 <Mail className="w-4 h-4 text-[#f1f1f1]" />
-                                <span>webgrade@gmail.com</span>
+                                <a href="mailto:webgradeuz@gmail.com" className="hover:text-white transition">
+                                    webgradeuz@gmail.com
+                                </a>
                             </li>
                             <li className="flex items-center gap-2">
                                 <AtSign className="w-4 h-4 text-[#f1f1f1]" />
-                                <span>@webgrade</span>
+                                <a href="https://t.me/webgradeuz" target="_blank" rel="noopener noreferrer" className="hover:text-white transition">
+                                    @webgradeuz
+                                </a>
                             </li>
                             <li className="flex items-center gap-2">
                                 <MapPin className="w-4 h-4 text-[#f1f1f1]" />

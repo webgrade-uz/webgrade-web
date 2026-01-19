@@ -94,7 +94,7 @@ const Company = () => {
         </div>
       </div>
 
-      <div className="py-24 bg-white">
+      {/* <div className="py-24 bg-white">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-16">
             <span className="inline-block text-[#989898] font-medium tracking-widest uppercase text-sm bg-[#f1f1f1] px-4 py-2 rounded-full">
@@ -144,7 +144,7 @@ const Company = () => {
             ))}
           </div>
         </div>
-      </div>
+      </div> */}
     </section>
   );
 };

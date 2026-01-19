@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { useLanguage } from "../i18n/LanguageContext";
-import { Eye, X } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { Eye } from "lucide-react";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
 const Blog = () => {
   const { t } = useLanguage();
+  const navigate = useNavigate();
   const [blogs, setBlogs] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [selectedBlog, setSelectedBlog] = useState(null);
 
   useEffect(() => {
     fetchBlogs();
@@ -25,18 +26,6 @@ const Blog = () => {
       console.error("Bloglarni yuklashda xato:", err);
     } finally {
       setLoading(false);
-    }
-  };
-
-  const openBlog = async (blog) => {
-    try {
-      const res = await fetch(`${API_URL}/blog/${blog.id}`);
-      const data = await res.json();
-      if (data.success) {
-        setSelectedBlog(data.data);
-      }
-    } catch (err) {
-      console.error("Blogni yuklashda xato:", err);
     }
   };
 
@@ -68,10 +57,11 @@ const Blog = () => {
         ) : blogs.length === 0 ? (
           <div className="text-center text-[#989898]">Bloglar topilmadi</div>
         ) : (
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            {blogs.map((blog) => (
+          <div className="grid grid-cols-1 gap-8">
+            {blogs.slice(0, 1).map((blog) => (
               <div
                 key={blog.id}
+                onClick={() => navigate(`/blog/${blog.id}`)}
                 className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 group cursor-pointer flex flex-col md:flex-row"
               >
                 {/* Left - Image */}
@@ -106,7 +96,10 @@ const Blog = () => {
                         <span>{blog.views}</span>
                       </div>
                       <button
-                        onClick={() => openBlog(blog)}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          navigate(`/blog/${blog.id}`);
+                        }}
                         className="bg-[#000000] hover:bg-[#1a1a1a] text-white p-2 rounded-lg transition"
                         title="Ko'rish"
                       >
@@ -120,58 +113,6 @@ const Blog = () => {
           </div>
         )}
       </div>
-
-      {/* Detail Modal */}
-      {selectedBlog && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-2xl w-full max-w-5xl max-h-[90vh] overflow-y-auto">
-            {/* Banner Section */}
-            <div className="relative w-full h-80 bg-gray-200">
-              {selectedBlog.image && (
-                <img
-                  src={`${API_URL}${selectedBlog.image}`}
-                  alt={selectedBlog.title}
-                  className="w-full h-full object-cover"
-                />
-              )}
-
-              {/* Dark Overlay */}
-              <div className="absolute inset-0 bg-black/40"></div>
-
-              {/* Close Button */}
-              <button
-                onClick={() => setSelectedBlog(null)}
-                className="absolute top-6 right-6 bg-white/90 hover:bg-white text-[#000000] p-2 rounded-lg transition z-10"
-              >
-                <X className="w-6 h-6" />
-              </button>
-
-              {/* Title & Meta on Banner */}
-              <div className="absolute inset-0 flex flex-col justify-end p-12 text-white">
-                <h1 className="text-5xl font-bold mb-4">
-                  {selectedBlog.title}
-                </h1>
-                <div className="flex items-center gap-6">
-                  <p className="text-base opacity-90">
-                    {formatDate(selectedBlog.createdAt)}
-                  </p>
-                  <div className="flex items-center gap-2 text-base opacity-90">
-                    <Eye className="w-5 h-5" />
-                    <span>{selectedBlog.views}</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Content Section */}
-            <div className="p-12">
-              <div className="text-[#000000] leading-relaxed text-base whitespace-normal">
-                {selectedBlog.content}
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
     </section>
   );
 };
