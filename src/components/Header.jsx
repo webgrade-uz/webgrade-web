@@ -30,7 +30,7 @@ const Header = () => {
         setScrolled(window.scrollY + 80 >= offsetTop);
       }
 
-      const sections = ["hero", "services", "advantages", "about", "blog", "contact"];
+      const sections = ["hero", "services", "about", "blog", "contact"];
       for (const sectionId of sections.reverse()) {
         const section = document.getElementById(sectionId);
         if (section) {
@@ -49,7 +49,6 @@ const Header = () => {
 
   const navLinks = [
     [t.nav.services, "services"],
-    [t.nav.advantages, "advantages"],
     [t.nav.about, "about"],
     [t.nav.blog, "blog"],
     [t.nav.contact, "contact"],

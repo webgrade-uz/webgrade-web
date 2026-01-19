@@ -64,11 +64,6 @@ const Footer = () => {
                         <h4 className="text-white font-semibold mb-4">{t.footer.companyTitle}</h4>
                         <ul className="space-y-2 text-sm">
                             <li>
-                                <a href="#advantages" onClick={(e) => scrollToSection(e, "advantages")} className="hover:text-white transition">
-                                    {t.footer.links.advantages}
-                                </a>
-                            </li>
-                            <li>
                                 <a href="#about" onClick={(e) => scrollToSection(e, "about")} className="hover:text-white transition">
                                     {t.footer.links.about}
                                 </a>

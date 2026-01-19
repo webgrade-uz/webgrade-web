@@ -73,8 +73,12 @@ const Company = () => {
               {t.company.description2}
             </p>
 
-            <ul className="mt-8 space-y-4">
-              {t.company.features.map((item, i) => (
+            <h3 className="text-lg font-semibold text-[#000000] mt-8 mb-4">
+              {t.company.reasonsTitle}
+            </h3>
+
+            <ul className="space-y-4">
+              {t.company.reasons.map((item, i) => (
                 <li key={i} className="flex items-center gap-3 text-[#000000]">
                   <div className="w-6 h-6 bg-[#000000] rounded-full flex items-center justify-center">
                     <CheckCircle className="w-4 h-4 text-white" />
@@ -95,7 +99,7 @@ const Company = () => {
             </div>
 
             <div className="grid grid-cols-3 gap-4">
-              {["20+", "30+", "5+"].map((value, i) => {
+              {["5+", "1k+", "3+"].map((value, i) => {
                 const Icon = statIcons[i];
                 const labels = [t.company.stats.projects, t.company.stats.clients, t.company.stats.experience];
                 return (

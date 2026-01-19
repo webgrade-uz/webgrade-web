@@ -1,5 +1,4 @@
 import Company from "./components/Company";
-import Advantages from "./components/Advantages";
 import Blog from "./components/Blog";
 import Contact from "./components/Contact";
 import Header from "./components/Header";
@@ -14,7 +13,6 @@ const App = () => {
       <Header />
       <Hero />
       <Services />
-      <Advantages />
       <Company />
       <Blog />
       <Contact />
