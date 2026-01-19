@@ -72,7 +72,7 @@ const Contact = () => {
   };
 
   return (
-    <section id="contact" className="bg-[#000000] text-white py-20 px-6 md:px-20 min-h-screen flex items-center">
+    <section id="contact" className="bg-[#000000] text-white py-12 px-6 md:px-20 min-h-screen flex items-center">
       {toast && (
         <Toast
           message={toast.message}

@@ -15,7 +15,7 @@ const Services = () => {
   const { t } = useLanguage();
 
   return (
-    <section id="services" className="py-24 bg-[#f1f1f1] scroll-mt-24">
+    <section id="services" className="py-12 bg-[#f1f1f1] scroll-mt-24">
       <div className="max-w-7xl mx-auto px-6">
         <div className="text-center mb-16">
           <span className="text-[#989898] font-medium tracking-widest text-sm">

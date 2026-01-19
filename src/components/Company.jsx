@@ -31,7 +31,7 @@ const Company = () => {
 
   return (
     <section id="about" className="bg-[#f1f1f1]">
-      <div className="py-24 max-w-7xl mx-auto px-6">
+      <div className="py-12 max-w-7xl mx-auto px-6">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           <div>
             <span className="inline-block text-[#989898] font-medium tracking-widest uppercase text-sm bg-white px-4 py-2 rounded-full">
