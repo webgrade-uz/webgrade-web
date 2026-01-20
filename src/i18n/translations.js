@@ -27,41 +27,41 @@ export const translations = {
                     title: "Veb-sayt yaratish",
                     desc: "Zamonavoy va responsive veb-saytlar",
                     prices: [
-                        { name: "Landing page", price: "3 600 000 so'm" },
-                        { name: "Korporativ sayt", price: "5 400 000 so'm" },
-                        { name: "E-commerce", price: "8 400 000 so'm" },
+                        { name: "Landing page", price: "4 300 000 so'm" },
+                        { name: "Korporativ sayt", price: "6 500 000 so'm" },
+                        { name: "E-commerce", price: "10 000 000 so'm" },
                     ],
                 },
                 {
                     title: "CRM tizimlar",
                     desc: "Biznes jarayonlarini boshqarish tizimi",
                     prices: [
-                        { name: "Standart CRM", price: "8 400 000 so'm" },
-                        { name: "Maxsus CRM", price: "12 000 000 so'm" },
+                        { name: "Standart CRM", price: "10 000 000 so'm" },
+                        { name: "Maxsus CRM", price: "14 500 000 so'm" },
                     ],
                 },
                 {
                     title: "Mobil ilovalar",
                     desc: "Android va iOS uchun ilovalar",
                     prices: [
-                        { name: "Android ilova", price: "7 200 000 so'm" },
-                        { name: "Cross-platform", price: "10 800 000 so'm" },
+                        { name: "Android ilova", price: "8 600 000 so'm" },
+                        { name: "Cross-platform", price: "13 000 000 so'm" },
                     ],
                 },
                 {
                     title: "Telegram botlar",
                     desc: "Avtomatlashtirish uchun botlar",
                     prices: [
-                        { name: "Oddiy bot", price: "3 600 000 so'm" },
-                        { name: "Murakkab bot", price: "5 400 000 so'm" },
+                        { name: "Oddiy bot", price: "4 300 000 so'm" },
+                        { name: "Murakkab bot", price: "6 500 000 so'm" },
                     ],
                 },
                 {
                     title: "Texnik qo'llab-quvvatlash",
                     desc: "24/7 monitoring va yordam",
                     prices: [
-                        { name: "Soatlik", price: "350 000 so'm" },
-                        { name: "Oylik", price: "1 800 000 so'm" },
+                        { name: "Soatlik", price: "450 000 so'm" },
+                        { name: "Oylik", price: "2 200 000 so'm" },
                     ],
                 },
                 {

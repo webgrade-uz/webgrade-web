@@ -19,6 +19,8 @@ const Company = () => {
     try {
       const res = await fetch(`${API_URL}/employee?limit=100`);
       const data = await res.json();
+      console.log("API URL:", API_URL);
+      console.log("API Javob:", data);
       if (data.success) {
         setEmployees(data.data.reverse());
       }

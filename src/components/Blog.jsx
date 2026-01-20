@@ -18,12 +18,30 @@ const Blog = () => {
   const fetchBlogs = async () => {
     try {
       const res = await fetch(`${API_URL}/blog?limit=6`);
+
+      if (!res.ok) {
+        throw new Error(`API Error: ${res.status} ${res.statusText}`);
+      }
+
       const data = await res.json();
-      if (data.success) {
+      console.log("API URL:", API_URL);
+      console.log("API Status:", res.status);
+      console.log("API Javob:", data);
+      console.log("Hamma Bloglar (JSON formatda):");
+      console.log(JSON.stringify(data, null, 2));
+
+      if (data.success && data.data) {
+        console.table(data.data);
         setBlogs(data.data.reverse());
+      } else {
+        console.warn("API success false yoki data yo'q:", data);
       }
     } catch (err) {
       console.error("Bloglarni yuklashda xato:", err);
+      console.error("Xato tafsilotlari:", {
+        message: err.message,
+        stack: err.stack
+      });
     } finally {
       setLoading(false);
     }
