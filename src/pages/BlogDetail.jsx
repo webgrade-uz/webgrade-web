@@ -138,10 +138,10 @@ const BlogDetail = () => {
 
                         {/* Meta Info */}
                         <div className="flex items-center gap-6 pb-8 border-b border-white/10 mb-8">
-                            <span className="text-[#989898] text-sm">
+                            <span className="text-white text-sm font-medium">
                                 {formatDate(blog.createdAt)}
                             </span>
-                            <div className="flex items-center gap-2 text-[#989898] text-sm">
+                            <div className="flex items-center gap-2 text-white text-sm font-medium">
                                 <Eye className="w-4 h-4" />
                                 <span>{blog.views}</span>
                             </div>
@@ -192,10 +192,10 @@ const BlogDetail = () => {
                                     </div>
 
                                     <div className="flex items-center justify-between pt-3 border-t border-white/10">
-                                        <span className="text-[#989898] text-xs">
+                                        <span className="text-white text-xs font-medium">
                                             {formatDate(relBlog.createdAt)}
                                         </span>
-                                        <div className="flex items-center gap-1 text-[#989898] text-xs">
+                                        <div className="flex items-center gap-1 text-white text-xs font-medium">
                                             <Eye className="w-3 h-3" />
                                             <span>{relBlog.views}</span>
                                         </div>

@@ -99,10 +99,10 @@ const Blog = () => {
 
                   <div className="flex items-center justify-between pt-4 border-t border-[#989898]/10">
                     <div className="flex items-center gap-3">
-                      <span className="text-[#989898] text-xs">
+                      <span className="text-[#000000] text-xs font-medium">
                         {formatDate(blog.createdAt)}
                       </span>
-                      <div className="flex items-center gap-1 text-[#989898] text-xs">
+                      <div className="flex items-center gap-1 text-[#000000] text-xs font-medium">
                         <Eye className="w-3 h-3" />
                         <span>{blog.views}</span>
                       </div>
