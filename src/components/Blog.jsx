@@ -17,31 +17,21 @@ const Blog = () => {
 
   const fetchBlogs = async () => {
     try {
-      const res = await fetch(`${API_URL}/blog?limit=6`);
+      const res = await fetch(`${API_URL}/blog?limit=10`);
 
       if (!res.ok) {
         throw new Error(`API Error: ${res.status} ${res.statusText}`);
       }
 
       const data = await res.json();
-      console.log("API URL:", API_URL);
-      console.log("API Status:", res.status);
-      console.log("API Javob:", data);
-      console.log("Hamma Bloglar (JSON formatda):");
-      console.log(JSON.stringify(data, null, 2));
 
       if (data.success && data.data) {
-        console.table(data.data);
-        setBlogs(data.data.reverse());
+        setBlogs(data.data);
       } else {
         console.warn("API success false yoki data yo'q:", data);
       }
     } catch (err) {
       console.error("Bloglarni yuklashda xato:", err);
-      console.error("Xato tafsilotlari:", {
-        message: err.message,
-        stack: err.stack
-      });
     } finally {
       setLoading(false);
     }
@@ -86,9 +76,12 @@ const Blog = () => {
                 {blog.image && (
                   <div className="relative w-full md:w-56 h-48 md:h-auto flex-shrink-0 bg-gray-200">
                     <img
-                      src={`${API_URL}${blog.image}`}
+                      src={blog.image}
                       alt={blog.title}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                      onError={(e) => {
+                        e.target.src = "https://via.placeholder.com/300x200?text=No+Image";
+                      }}
                     />
                   </div>
                 )}
