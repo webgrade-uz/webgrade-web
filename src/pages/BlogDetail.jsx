@@ -24,7 +24,18 @@ const BlogDetail = () => {
             const data = await res.json();
             if (data.success) {
                 setBlog(data.data);
-                document.title = `${data.data.title} | Webgrade`;
+                // SEO meta tags
+                document.title = `${data.data.title} | Webgrade Blog`;
+                document.querySelector('meta[name="description"]')?.setAttribute('content', data.data.content.substring(0, 160));
+
+                // Open Graph
+                const ogTitle = document.querySelector('meta[property="og:title"]');
+                const ogDesc = document.querySelector('meta[property="og:description"]');
+                const ogImage = document.querySelector('meta[property="og:image"]');
+
+                if (ogTitle) ogTitle.setAttribute('content', data.data.title);
+                if (ogDesc) ogDesc.setAttribute('content', data.data.content.substring(0, 160));
+                if (ogImage && data.data.image) ogImage.setAttribute('content', data.data.image);
             }
         } catch (err) {
             console.error("Blogni yuklashda xato:", err);
