@@ -186,7 +186,7 @@ const BlogDetail = () => {
                                         <h3 className="text-sm font-bold text-white mb-2 line-clamp-2 group-hover:text-[#989898] transition">
                                             {relBlog.title}
                                         </h3>
-                                        <p className="text-[#989898] text-xs mb-3 line-clamp-2">
+                                        <p className="text-[#000000] text-xs mb-3 line-clamp-2">
                                             {relBlog.content}
                                         </p>
                                     </div>

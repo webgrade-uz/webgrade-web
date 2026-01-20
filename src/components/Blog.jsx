@@ -92,7 +92,7 @@ const Blog = () => {
                     <h3 className="text-base font-bold text-[#000000] mb-2 line-clamp-2 group-hover:text-[#1a1a1a] transition">
                       {blog.title}
                     </h3>
-                    <p className="text-[#989898] text-sm mb-4 line-clamp-2 leading-relaxed">
+                    <p className="text-[#000000] text-sm mb-4 line-clamp-2 leading-relaxed">
                       {blog.content}
                     </p>
                   </div>
