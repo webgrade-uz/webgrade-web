@@ -65,57 +65,47 @@ const Blog = () => {
         ) : blogs.length === 0 ? (
           <div className="text-center text-[#989898]">Bloglar topilmadi</div>
         ) : (
-          <div className="grid grid-cols-1 gap-8">
-            {blogs.slice(0, 1).map((blog) => (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {blogs.slice(0, 6).map((blog) => (
               <div
                 key={blog.id}
                 onClick={() => navigate(`/blog/${blog.id}`)}
-                className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 group cursor-pointer flex flex-col md:flex-row"
+                className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 group cursor-pointer flex flex-row h-full"
               >
                 {/* Left - Image */}
                 {blog.image && (
-                  <div className="relative w-full md:w-56 h-48 md:h-auto flex-shrink-0 bg-gray-200">
+                  <div className="relative w-40 h-40 bg-gray-200 flex-shrink-0 overflow-hidden">
                     <img
                       src={blog.image}
                       alt={blog.title}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
                       onError={(e) => {
-                        e.target.src = "https://via.placeholder.com/300x200?text=No+Image";
+                        e.target.src = "https://via.placeholder.com/200x200?text=No+Image";
                       }}
                     />
                   </div>
                 )}
 
                 {/* Right - Content */}
-                <div className="p-8 flex-1 flex flex-col justify-between">
+                <div className="p-6 flex flex-col justify-between flex-1">
                   <div>
-                    <h3 className="text-xl font-bold text-[#000000] mb-3 line-clamp-2">
+                    <h3 className="text-base font-bold text-[#000000] mb-2 line-clamp-2 group-hover:text-[#1a1a1a] transition">
                       {blog.title}
                     </h3>
-                    <p className="text-[#989898] text-sm mb-6 line-clamp-4 leading-relaxed">
+                    <p className="text-[#989898] text-sm mb-4 line-clamp-2 leading-relaxed">
                       {blog.content}
                     </p>
                   </div>
 
                   <div className="flex items-center justify-between pt-4 border-t border-[#989898]/10">
-                    <span className="text-[#989898] text-sm">
-                      {formatDate(blog.createdAt)}
-                    </span>
                     <div className="flex items-center gap-3">
-                      <div className="flex items-center gap-1 text-[#989898] text-sm">
-                        <Eye className="w-4 h-4" />
+                      <span className="text-[#989898] text-xs">
+                        {formatDate(blog.createdAt)}
+                      </span>
+                      <div className="flex items-center gap-1 text-[#989898] text-xs">
+                        <Eye className="w-3 h-3" />
                         <span>{blog.views}</span>
                       </div>
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          navigate(`/blog/${blog.id}`);
-                        }}
-                        className="bg-[#000000] hover:bg-[#1a1a1a] text-white p-2 rounded-lg transition"
-                        title="Ko'rish"
-                      >
-                        <Eye className="w-4 h-4" />
-                      </button>
                     </div>
                   </div>
                 </div>
