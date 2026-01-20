@@ -10,7 +10,6 @@ const Blog = () => {
   const navigate = useNavigate();
   const [blogs, setBlogs] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [showAll, setShowAll] = useState(false);
   const itemsPerPage = 4;
 
   useEffect(() => {
@@ -69,7 +68,7 @@ const Blog = () => {
         ) : (
           <>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              {blogs.slice(0, showAll ? blogs.length : itemsPerPage).map((blog) => (
+              {blogs.slice(0, itemsPerPage).map((blog) => (
                 <div
                   key={blog.id}
                   onClick={() => navigate(`/blog/${blog.id}`)}
@@ -119,20 +118,11 @@ const Blog = () => {
             {blogs.length > itemsPerPage && (
               <div className="flex justify-center mt-12">
                 <button
-                  onClick={() => setShowAll(!showAll)}
+                  onClick={() => navigate("/blogs")}
                   className="flex items-center gap-2 bg-[#000000] hover:bg-[#1a1a1a] text-white font-medium px-8 py-3 rounded-lg transition-all duration-300"
                 >
-                  {showAll ? (
-                    <>
-                      Kamroq ko'rish
-                      <ChevronDown className="w-5 h-5 rotate-180" />
-                    </>
-                  ) : (
-                    <>
-                      Ko'proq ko'rish
-                      <ChevronDown className="w-5 h-5" />
-                    </>
-                  )}
+                  Ko'proq ko'rish
+                  <ChevronDown className="w-5 h-5" />
                 </button>
               </div>
             )}

@@ -1,6 +1,7 @@
 import Company from "./components/Company";
 import Blog from "./components/Blog";
 import BlogDetail from "./pages/BlogDetail";
+import BlogList from "./pages/BlogList";
 import Contact from "./components/Contact";
 import Header from "./components/Header";
 import Hero from "./components/Hero";
@@ -30,6 +31,7 @@ const App = () => {
             <Contact />
           </>
         } />
+        <Route path="/blogs" element={<BlogList />} />
         <Route path="/blog/:id" element={<BlogDetail />} />
       </Routes>
       <Footer />
