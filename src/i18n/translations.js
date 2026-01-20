@@ -98,6 +98,8 @@ export const translations = {
             badge: "BLOG",
             title: "Foydali maqolalar",
             description: "Tez orada yangi maqolalar qo'shiladi",
+            viewMore: "Ko'proq ko'rish",
+            viewLess: "Kamroq ko'rish",
         },
         // Contact
         contact: {
