@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
 import { useLanguage } from "../i18n/LanguageContext";
+import { useLocation, useNavigate } from "react-router-dom";
 import Logo from "../assets/Webgrade.svg";
 
 // const languages = [
@@ -11,19 +12,67 @@ import Logo from "../assets/Webgrade.svg";
 
 const Header = () => {
   const { t } = useLanguage();
+  const location = useLocation();
+  const navigate = useNavigate();
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("hero");
 
+  // BlogDetail va BlogList sahifalarida har doim oq header
+  const isBlogDetailPage = !!location.pathname.match(/^\/blog\/[^/]+$/);
+  const isBlogListPage = location.pathname === "/blogs";
+  const isHomePage = location.pathname === "/";
+
   const scrollToSection = (e, sectionId) => {
     e.preventDefault();
-    const section = document.getElementById(sectionId);
-    section?.scrollIntoView({ behavior: "smooth" });
     setMenuOpen(false);
+
+    if (isHomePage) {
+      // Bosh sahifada to'g'ri section'ga scroll qilish
+      const section = document.getElementById(sectionId);
+      section?.scrollIntoView({ behavior: "smooth" });
+    } else {
+      // BlogDetail yoki BlogList'dan bosh sahifaga navigate qilish
+      navigate("/");
+      // Sahifa load bo'lgandan keyin section'ga scroll qilish
+      setTimeout(() => {
+        const section = document.getElementById(sectionId);
+        section?.scrollIntoView({ behavior: "smooth" });
+      }, 100);
+    }
   };
 
+  const handleLogoClick = (e) => {
+    e.preventDefault();
+    setMenuOpen(false);
+
+    if (isHomePage) {
+      // Bosh sahifada hero'ga scroll qilish
+      const section = document.getElementById("hero");
+      section?.scrollIntoView({ behavior: "smooth" });
+    } else {
+      // BlogDetail yoki BlogList'dan bosh sahifaga navigate qilish
+      navigate("/");
+    }
+  };
+
+  // Sahifa o'zgarishida darhol header state'ni o'rnatish
   useEffect(() => {
+    if (isBlogDetailPage) {
+      setScrolled(false);
+    } else if (isBlogListPage) {
+      setScrolled(true);
+    }
+  }, [isBlogDetailPage, isBlogListPage]);
+
+  useEffect(() => {
+    // BlogDetail yoki BlogList sahifalarida scroll listener'ni o'chirish
+    if (isBlogDetailPage || isBlogListPage) {
+      return;
+    }
+
     const handleScroll = () => {
+      // Bosh sahifada services section'dan scroll qilganda oq header
       const servicesSection = document.getElementById("services");
       if (servicesSection) {
         const offsetTop = servicesSection.offsetTop;
@@ -45,7 +94,7 @@ const Header = () => {
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [isBlogDetailPage, isBlogListPage]);
 
   const navLinks = [
     [t.nav.services, "services"],
@@ -63,8 +112,8 @@ const Header = () => {
     >
       <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
         <a
-          href="#hero"
-          onClick={(e) => scrollToSection(e, "hero")}
+          href="/"
+          onClick={handleLogoClick}
           className="flex items-center gap-2 font-bold text-xl"
         >
           <img

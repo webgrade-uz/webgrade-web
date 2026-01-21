@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { Eye, ArrowLeft, Search } from "lucide-react";
-import { useLanguage } from "../i18n/LanguageContext";
+import { PageLoadingSkeleton } from "../components/LoadingSkeleton";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
 const BlogList = () => {
     const navigate = useNavigate();
-    const { t } = useLanguage();
     const [searchParams] = useSearchParams();
     const [blogs, setBlogs] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -46,12 +45,21 @@ const BlogList = () => {
         blog.content.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
+    if (loading) {
+        return <PageLoadingSkeleton />;
+    }
+
     return (
         <div className="min-h-screen bg-[#f1f1f1] pt-24 pb-12">
             {/* Back Button */}
             <div className="max-w-7xl mx-auto px-6 mb-8">
                 <button
-                    onClick={() => navigate("/")}
+                    onClick={() => {
+                        navigate("/");
+                        setTimeout(() => {
+                            document.getElementById("blog")?.scrollIntoView({ behavior: "smooth" });
+                        }, 100);
+                    }}
                     className="flex items-center gap-2 text-[#000000] hover:text-[#989898] transition text-sm font-medium"
                 >
                     <ArrowLeft className="w-4 h-4" />
@@ -85,9 +93,7 @@ const BlogList = () => {
                 </div>
 
                 {/* Blogs Grid */}
-                {loading ? (
-                    <div className="text-center text-[#989898]">Yuklanmoqda...</div>
-                ) : filteredBlogs.length === 0 ? (
+                {filteredBlogs.length === 0 ? (
                     <div className="text-center text-[#989898] py-12">
                         Maqolalar topilmadi
                     </div>
@@ -103,7 +109,7 @@ const BlogList = () => {
                                 {blog.image && (
                                     <div className="relative w-full h-48 bg-gray-200 overflow-hidden">
                                         <img
-                                            src={blog.image}
+                                            src={blog.image.startsWith('http') ? blog.image : `${API_URL}${blog.image}`}
                                             alt={blog.title}
                                             className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
                                             onError={(e) => {

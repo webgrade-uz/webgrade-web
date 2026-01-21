@@ -5,6 +5,50 @@ import { useLanguage } from "../i18n/LanguageContext";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
+const BlogDetailSkeleton = () => {
+    return (
+        <div className="min-h-screen bg-[#000000]">
+            {/* Back Button */}
+            <div className="pt-24 pb-6 px-6 max-w-7xl mx-auto">
+                <div className="h-4 bg-gray-700 rounded w-20 animate-pulse" />
+            </div>
+
+            {/* Main Content */}
+            <div className="max-w-7xl mx-auto px-6 py-20">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+                    {/* Left - Image */}
+                    <div className="relative rounded-2xl overflow-hidden bg-gray-800 h-96 lg:h-full lg:min-h-96 animate-pulse" />
+
+                    {/* Right - Content */}
+                    <div className="flex flex-col justify-start">
+                        {/* Badge */}
+                        <div className="h-4 bg-gray-700 rounded w-16 mb-6 animate-pulse" />
+
+                        {/* Title */}
+                        <div className="space-y-3 mb-6">
+                            <div className="h-8 bg-gray-700 rounded w-full animate-pulse" />
+                            <div className="h-8 bg-gray-700 rounded w-3/4 animate-pulse" />
+                        </div>
+
+                        {/* Meta Info */}
+                        <div className="flex items-center gap-6 pb-8 border-b border-white/10 mb-8">
+                            <div className="h-4 bg-gray-700 rounded w-24 animate-pulse" />
+                            <div className="h-4 bg-gray-700 rounded w-20 animate-pulse" />
+                        </div>
+
+                        {/* Content */}
+                        <div className="space-y-3">
+                            {[...Array(5)].map((_, i) => (
+                                <div key={i} className="h-4 bg-gray-700 rounded animate-pulse" />
+                            ))}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+};
+
 const BlogDetail = () => {
     const { id } = useParams();
     const navigate = useNavigate();
@@ -26,16 +70,38 @@ const BlogDetail = () => {
                 setBlog(data.data);
                 // SEO meta tags
                 document.title = `${data.data.title} | Webgrade Blog`;
-                document.querySelector('meta[name="description"]')?.setAttribute('content', data.data.content.substring(0, 160));
+
+                // Description meta tag
+                const descMeta = document.querySelector('meta[name="description"]');
+                if (descMeta) {
+                    descMeta.setAttribute('content', data.data.content.substring(0, 160));
+                }
 
                 // Open Graph
                 const ogTitle = document.querySelector('meta[property="og:title"]');
                 const ogDesc = document.querySelector('meta[property="og:description"]');
                 const ogImage = document.querySelector('meta[property="og:image"]');
+                const ogUrl = document.querySelector('meta[property="og:url"]');
 
                 if (ogTitle) ogTitle.setAttribute('content', data.data.title);
                 if (ogDesc) ogDesc.setAttribute('content', data.data.content.substring(0, 160));
-                if (ogImage && data.data.image) ogImage.setAttribute('content', data.data.image);
+                if (ogImage && data.data.image) {
+                    const imageUrl = data.data.image.startsWith('http') ? data.data.image : `${API_URL}${data.data.image}`;
+                    ogImage.setAttribute('content', imageUrl);
+                }
+                if (ogUrl) ogUrl.setAttribute('content', `https://webgrade.uz/blog/${id}`);
+
+                // Twitter
+                const twitterTitle = document.querySelector('meta[property="twitter:title"]');
+                const twitterDesc = document.querySelector('meta[property="twitter:description"]');
+                const twitterImage = document.querySelector('meta[property="twitter:image"]');
+
+                if (twitterTitle) twitterTitle.setAttribute('content', data.data.title);
+                if (twitterDesc) twitterDesc.setAttribute('content', data.data.content.substring(0, 160));
+                if (twitterImage && data.data.image) {
+                    const imageUrl = data.data.image.startsWith('http') ? data.data.image : `${API_URL}${data.data.image}`;
+                    twitterImage.setAttribute('content', imageUrl);
+                }
             }
         } catch (err) {
             console.error("Blogni yuklashda xato:", err);
@@ -70,11 +136,7 @@ const BlogDetail = () => {
     };
 
     if (loading) {
-        return (
-            <div className="min-h-screen bg-[#f1f1f1] flex items-center justify-center">
-                <div className="text-[#989898]">Yuklanmoqda...</div>
-            </div>
-        );
+        return <BlogDetailSkeleton />;
     }
 
     if (!blog) {
@@ -98,7 +160,7 @@ const BlogDetail = () => {
             {/* Back Button */}
             <div className="pt-24 pb-6 px-6 max-w-7xl mx-auto">
                 <button
-                    onClick={() => navigate("/")}
+                    onClick={() => navigate("/blogs")}
                     className="flex items-center gap-2 text-white hover:text-[#989898] transition text-sm"
                 >
                     <ArrowLeft className="w-4 h-4" />
@@ -107,7 +169,7 @@ const BlogDetail = () => {
             </div>
 
             {/* Main Content */}
-            <div className="max-w-7xl mx-auto px-6 py-12">
+            <div className="max-w-7xl mx-auto px-6 py-20">
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
                     {/* Left - Image */}
                     {blog.image && (
