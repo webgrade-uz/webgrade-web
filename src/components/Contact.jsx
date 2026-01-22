@@ -30,10 +30,17 @@ const Contact = () => {
     setIsLoading(true);
     setError("");
 
+    // Unique ID yaratish - sodda format: WG-XXXXXX
+    const randomPart = Math.random().toString(36).substring(2, 8).toUpperCase();
+    const requestId = `WG-${randomPart}`;
+
     const BOT_TOKEN = import.meta.env.VITE_TELEGRAM_BOT_TOKEN;
     const CHAT_ID = import.meta.env.VITE_TELEGRAM_CHAT_ID;
+    const API_URL = import.meta.env.VITE_API_URL;
 
     const text = `🚀 Yangi so'rov!
+
+🆔 ID: ${requestId}
 
 👤 Ism: ${formData.name}
 📞 Telefon: ${formData.phone}
@@ -43,6 +50,20 @@ const Contact = () => {
 📅 Sana: ${new Date().toLocaleString("uz-UZ")}`;
 
     try {
+      // Avval API'ga ma'lumotlarni saqlash
+      await fetch(`${API_URL}/contact`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          id: requestId,
+          name: formData.name,
+          phone: formData.phone,
+          service: formData.service,
+          message: formData.message,
+        }),
+      });
+
+      // Telegram'ga xabar yuborish
       const response = await fetch(
         `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`,
         {
@@ -59,8 +80,12 @@ const Contact = () => {
 
       if (data.ok) {
         setIsSuccess(true);
+        sessionStorage.setItem('lastRequestId', requestId);
         setFormData({ name: "", phone: "", service: "", message: "" });
-        setToast({ message: t.contact.success, type: "success" });
+        setToast({
+          message: t.contact.success,
+          type: "success"
+        });
       } else {
         setToast({ message: t.contact.error, type: "error" });
       }
@@ -77,6 +102,7 @@ const Contact = () => {
         <Toast
           message={toast.message}
           type={toast.type}
+          requestId={toast.requestId}
           onClose={() => setToast(null)}
         />
       )}
@@ -105,7 +131,7 @@ const Contact = () => {
 
         <div className="bg-[#111111] p-8 md:p-10 rounded-3xl border border-[#989898]/10 shadow-2xl">
           {isSuccess ? (
-            <div className="text-center py-10">
+            <div id="success-modal" className="text-center py-10">
               <div className="w-20 h-20 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-6">
                 <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
