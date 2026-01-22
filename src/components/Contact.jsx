@@ -7,7 +7,7 @@ const Contact = () => {
   const { t } = useLanguage();
   const [formData, setFormData] = useState({
     name: "",
-    phone: "",
+    phone: "+998",
     service: "",
     message: "",
   });
@@ -15,6 +15,7 @@ const Contact = () => {
   const [isSuccess, setIsSuccess] = useState(false);
   const [error, setError] = useState("");
   const [toast, setToast] = useState(null);
+  const [errors, setErrors] = useState({});
 
   useEffect(() => {
     if (isSuccess) {
@@ -25,10 +26,84 @@ const Contact = () => {
     }
   }, [isSuccess]);
 
+  // Validation functions
+  const validateName = (name) => {
+    if (!name.trim()) return "Ism majburiy";
+    if (name.length < 3) return "Ism kamida 3 ta harf bo'lishi kerak";
+    if (name.length > 18) return "Ism 18 tadan ko'p bo'lmagan";
+    if (!/^[a-zA-Zа-яА-ЯёЁ\s]+$/.test(name)) return "Ism faqat harflardan iborat bo'lishi kerak";
+    return "";
+  };
+
+  const validatePhone = (phone) => {
+    if (!phone.trim()) return "Telefon raqami majburiy";
+
+    // +998 bilan boshlanishini tekshirish
+    if (!phone.startsWith("+998")) return "Telefon +998 bilan boshlanishi kerak";
+
+    // +998 dan keyin 9 ta raqam bo'lishi kerak
+    const phoneNumber = phone.replace("+998", "");
+    if (!/^\d{9}$/.test(phoneNumber)) return "Telefon +998 dan keyin 9 ta raqamdan iborat bo'lishi kerak";
+
+    // Uz mobile kodlarini tekshirish (90, 91, 92, 93, 94, 95, 97, 98, 99)
+    const mobileCode = phoneNumber.substring(0, 2);
+    const validCodes = ["90", "91", "92", "93", "94", "95", "97", "98", "99"];
+    if (!validCodes.includes(mobileCode)) return "Noto'g'ri mobil operator kodi";
+
+    return "";
+  };
+
+  const validateMessage = (message) => {
+    if (!message.trim()) return "Xabar majburiy";
+    if (message.trim().length < 10) return "Xabar kamida 10 ta belgidan iborat bo'lishi kerak";
+    return "";
+  };
+
+  const handlePhoneChange = (e) => {
+    let value = e.target.value;
+
+    // Agar +998 o'chirilsa, qayta qo'shish
+    if (!value.startsWith("+998")) {
+      value = "+998" + value.replace(/\D/g, "");
+    }
+
+    // Faqat +998 dan keyin 9 ta raqam qabul qil
+    const phoneNumber = value.replace("+998", "");
+    const limitedNumber = phoneNumber.slice(0, 9);
+
+    // Faqat raqamlar qabul qil
+    if (/^\d*$/.test(limitedNumber)) {
+      setFormData({ ...formData, phone: "+998" + limitedNumber });
+      if (errors.phone) setErrors({ ...errors, phone: "" });
+    }
+  };
+
+  const validateForm = () => {
+    const newErrors = {};
+
+    const nameError = validateName(formData.name);
+    if (nameError) newErrors.name = nameError;
+
+    const phoneError = validatePhone(formData.phone);
+    if (phoneError) newErrors.phone = phoneError;
+
+    const messageError = validateMessage(formData.message);
+    if (messageError) newErrors.message = messageError;
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setIsLoading(true);
     setError("");
+
+    // Validation
+    if (!validateForm()) {
+      return;
+    }
+
+    setIsLoading(true);
 
     // Unique ID yaratish - sodda format: WG-XXXXXX
     const randomPart = Math.random().toString(36).substring(2, 8).toUpperCase();
@@ -42,10 +117,10 @@ const Contact = () => {
 
 🆔 ID: ${requestId}
 
-👤 Ism: ${formData.name}
-📞 Telefon: ${formData.phone}
+� Iism: ${formData.name}
+� XTelefon: ${formData.phone}
 🛠 Xizmat: ${formData.service}
-💬 Xabar: ${formData.message}
+�  Xabar: ${formData.message}
 
 📅 Sana: ${new Date().toLocaleString("uz-UZ")}`;
 
@@ -81,7 +156,7 @@ const Contact = () => {
       if (data.ok) {
         setIsSuccess(true);
         sessionStorage.setItem('lastRequestId', requestId);
-        setFormData({ name: "", phone: "", service: "", message: "" });
+        setFormData({ name: "", phone: "+998", service: "", message: "" });
         setToast({
           message: t.contact.success,
           type: "success"
@@ -156,23 +231,37 @@ const Contact = () => {
                   <input
                     type="text"
                     placeholder={t.contact.name}
-                    className="w-full bg-[#1a1a1a] text-white pl-12 pr-4 py-4 rounded-xl outline-none focus:ring-2 ring-white/30 border border-[#989898]/10 focus:border-white/30 placeholder-[#989898] transition"
+                    className={`w-full bg-[#1a1a1a] text-white pl-12 pr-4 py-4 rounded-xl outline-none focus:ring-2 border placeholder-[#989898] transition ${errors.name
+                      ? "ring-red-500/30 border-red-500/30 focus:border-red-500/30"
+                      : "ring-white/30 border-[#989898]/10 focus:border-white/30"
+                      }`}
                     value={formData.name}
-                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    required
+                    onChange={(e) => {
+                      setFormData({ ...formData, name: e.target.value });
+                      if (errors.name) setErrors({ ...errors, name: "" });
+                    }}
                   />
+                  {errors.name && (
+                    <p className="text-red-400 text-xs mt-1">{errors.name}</p>
+                  )}
                 </div>
 
                 <div className="relative group">
                   <Phone className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#989898] group-focus-within:text-white transition" />
                   <input
-                    type="tel"
-                    placeholder={t.contact.phone}
-                    className="w-full bg-[#1a1a1a] text-white pl-12 pr-4 py-4 rounded-xl outline-none focus:ring-2 ring-white/30 border border-[#989898]/10 focus:border-white/30 placeholder-[#989898] transition"
+                    type="text"
+                    placeholder="+998 90 123 456 789"
+                    className={`w-full bg-[#1a1a1a] text-white pl-12 pr-4 py-4 rounded-xl outline-none focus:ring-2 border placeholder-[#989898] transition ${errors.phone
+                      ? "ring-red-500/30 border-red-500/30 focus:border-red-500/30"
+                      : "ring-white/30 border-[#989898]/10 focus:border-white/30"
+                      }`}
                     value={formData.phone}
-                    onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                    required
+                    onChange={handlePhoneChange}
+                    maxLength="15"
                   />
+                  {errors.phone && (
+                    <p className="text-red-400 text-xs mt-1">{errors.phone}</p>
+                  )}
                 </div>
 
                 <div className="relative group">
@@ -196,11 +285,19 @@ const Contact = () => {
                   <textarea
                     placeholder={t.contact.message}
                     rows="4"
-                    className="w-full bg-[#1a1a1a] text-white pl-12 pr-4 py-4 rounded-xl outline-none focus:ring-2 ring-white/30 border border-[#989898]/10 focus:border-white/30 resize-none placeholder-[#989898] transition"
+                    className={`w-full bg-[#1a1a1a] text-white pl-12 pr-4 py-4 rounded-xl outline-none focus:ring-2 border resize-none placeholder-[#989898] transition ${errors.message
+                      ? "ring-red-500/30 border-red-500/30 focus:border-red-500/30"
+                      : "ring-white/30 border-[#989898]/10 focus:border-white/30"
+                      }`}
                     value={formData.message}
-                    onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                    required
+                    onChange={(e) => {
+                      setFormData({ ...formData, message: e.target.value });
+                      if (errors.message) setErrors({ ...errors, message: "" });
+                    }}
                   ></textarea>
+                  {errors.message && (
+                    <p className="text-red-400 text-xs mt-1">{errors.message}</p>
+                  )}
                 </div>
 
                 <button
