@@ -14,6 +14,8 @@ const BlogList = () => {
 
     useEffect(() => {
         fetchBlogs();
+        // Sahifaga kirganda scroll yuqoriga qaytarish
+        window.scrollTo(0, 0);
     }, []);
 
     const fetchBlogs = async () => {

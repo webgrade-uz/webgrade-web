@@ -117,10 +117,10 @@ const Contact = () => {
 
 🆔 ID: ${requestId}
 
-� Iism: ${formData.name}
-� XTelefon: ${formData.phone}
+👤 Ism: ${formData.name}
+📞 Telefon: ${formData.phone}
 🛠 Xizmat: ${formData.service}
-�  Xabar: ${formData.message}
+💬 Xabar: ${formData.message}
 
 📅 Sana: ${new Date().toLocaleString("uz-UZ")}`;
 
