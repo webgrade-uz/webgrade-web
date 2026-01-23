@@ -99,7 +99,7 @@ const Blog = () => {
                       </p>
                     </div>
 
-                    <div className="flex items-center justify-between pt-4 border-t border-[#989898]/10">
+                    <div className="flex items-center justify-between pt-4">
                       <div className="flex items-center gap-3">
                         <span className="text-[#000000] text-xs font-medium">
                           {formatDate(blog.createdAt)}
