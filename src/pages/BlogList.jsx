@@ -11,11 +11,27 @@ const BlogList = () => {
     const [blogs, setBlogs] = useState([]);
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState(searchParams.get("q") || "");
+    const [displayCount, setDisplayCount] = useState(typeof window !== 'undefined' && window.innerWidth < 768 ? 2 : 4);
+    const [isMobile, setIsMobile] = useState(typeof window !== 'undefined' && window.innerWidth < 768);
 
     useEffect(() => {
         fetchBlogs();
         // Sahifaga kirganda scroll yuqoriga qaytarish
         window.scrollTo(0, 0);
+
+        // Handle window resize
+        const handleResize = () => {
+            const mobile = window.innerWidth < 768;
+            setIsMobile(mobile);
+            if (mobile && displayCount > 2) {
+                setDisplayCount(2);
+            } else if (!mobile && displayCount < 4) {
+                setDisplayCount(4);
+            }
+        };
+
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
     }, []);
 
     const fetchBlogs = async () => {
@@ -46,6 +62,9 @@ const BlogList = () => {
         blog.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
         blog.content.toLowerCase().includes(searchTerm.toLowerCase())
     );
+
+    const displayedBlogs = filteredBlogs.slice(0, displayCount);
+    const hasMore = displayCount < filteredBlogs.length;
 
     if (loading) {
         return <PageLoadingSkeleton />;
@@ -100,51 +119,64 @@ const BlogList = () => {
                         Maqolalar topilmadi
                     </div>
                 ) : (
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                        {filteredBlogs.map((blog) => (
-                            <div
-                                key={blog.id}
-                                onClick={() => navigate(`/blog/${blog.id}`)}
-                                className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 group cursor-pointer flex flex-col h-full"
-                            >
-                                {/* Image */}
-                                {blog.image && (
-                                    <div className="relative w-full h-48 bg-gray-200 overflow-hidden">
-                                        <img
-                                            src={blog.image.startsWith('http') ? blog.image : `${API_URL}${blog.image}`}
-                                            alt={blog.title}
-                                            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
-                                            onError={(e) => {
-                                                e.target.src = "https://via.placeholder.com/400x300?text=Blog";
-                                            }}
-                                        />
-                                    </div>
-                                )}
+                    <>
+                        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                            {displayedBlogs.map((blog) => (
+                                <div
+                                    key={blog.id}
+                                    onClick={() => navigate(`/blog/${blog.id}`)}
+                                    className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 group cursor-pointer flex flex-col h-full"
+                                >
+                                    {/* Image */}
+                                    {blog.image && (
+                                        <div className="relative w-full h-48 bg-gray-200 overflow-hidden">
+                                            <img
+                                                src={blog.image.startsWith('http') ? blog.image : `${API_URL}${blog.image}`}
+                                                alt={blog.title}
+                                                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                                                onError={(e) => {
+                                                    e.target.src = "https://via.placeholder.com/400x300?text=Blog";
+                                                }}
+                                            />
+                                        </div>
+                                    )}
 
-                                {/* Content */}
-                                <div className="p-6 flex flex-col justify-between flex-1">
-                                    <div>
-                                        <h3 className="text-lg font-bold text-[#000000] mb-2 line-clamp-2 group-hover:text-[#1a1a1a] transition">
-                                            {blog.title}
-                                        </h3>
-                                        <p className="text-[#989898] text-sm mb-4 line-clamp-3 leading-relaxed">
-                                            {blog.content}
-                                        </p>
-                                    </div>
+                                    {/* Content */}
+                                    <div className="p-6 flex flex-col justify-between flex-1">
+                                        <div>
+                                            <h3 className="text-lg font-bold text-[#000000] mb-2 line-clamp-2 group-hover:text-[#1a1a1a] transition">
+                                                {blog.title}
+                                            </h3>
+                                            <p className="text-[#989898] text-sm mb-4 line-clamp-3 leading-relaxed">
+                                                {blog.content}
+                                            </p>
+                                        </div>
 
-                                    <div className="flex items-center justify-between pt-4 border-t border-[#989898]/10">
-                                        <span className="text-[#000000] text-xs font-medium">
-                                            {formatDate(blog.createdAt)}
-                                        </span>
-                                        <div className="flex items-center gap-1 text-[#000000] text-xs font-medium">
-                                            <Eye className="w-3 h-3" />
-                                            <span>{blog.views}</span>
+                                        <div className="flex items-center justify-between pt-4 border-t border-[#989898]/10">
+                                            <span className="text-[#000000] text-xs font-medium">
+                                                {formatDate(blog.createdAt)}
+                                            </span>
+                                            <div className="flex items-center gap-1 text-[#000000] text-xs font-medium">
+                                                <Eye className="w-3 h-3" />
+                                                <span>{blog.views}</span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
+                            ))}
+                        </div>
+
+                        {hasMore && (
+                            <div className="flex justify-center mt-12">
+                                <button
+                                    onClick={() => setDisplayCount(displayCount + (isMobile ? 2 : 4))}
+                                    className="px-8 py-3 bg-[#000000] text-white rounded-xl font-medium hover:bg-[#1a1a1a] transition"
+                                >
+                                    Ko'proq ko'rish
+                                </button>
                             </div>
-                        ))}
-                    </div>
+                        )}
+                    </>
                 )}
             </div>
         </div>
