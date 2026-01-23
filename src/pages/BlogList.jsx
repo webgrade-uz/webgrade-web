@@ -23,16 +23,16 @@ const BlogList = () => {
         const handleResize = () => {
             const mobile = window.innerWidth < 768;
             setIsMobile(mobile);
-            if (mobile && displayCount > 2) {
+            if (mobile) {
                 setDisplayCount(2);
-            } else if (!mobile && displayCount < 4) {
+            } else {
                 setDisplayCount(4);
             }
         };
 
         window.addEventListener('resize', handleResize);
         return () => window.removeEventListener('resize', handleResize);
-    }, []);
+    }, [displayCount]);
 
     const fetchBlogs = async () => {
         try {
@@ -120,7 +120,7 @@ const BlogList = () => {
                     </div>
                 ) : (
                     <>
-                        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
                             {displayedBlogs.map((blog) => (
                                 <div
                                     key={blog.id}
