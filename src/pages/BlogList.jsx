@@ -11,28 +11,13 @@ const BlogList = () => {
     const [blogs, setBlogs] = useState([]);
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState(searchParams.get("q") || "");
-    const [displayCount, setDisplayCount] = useState(typeof window !== 'undefined' && window.innerWidth < 768 ? 2 : 4);
-    const [isMobile, setIsMobile] = useState(typeof window !== 'undefined' && window.innerWidth < 768);
+    const [displayCount, setDisplayCount] = useState(4);
 
     useEffect(() => {
         fetchBlogs();
         // Sahifaga kirganda scroll yuqoriga qaytarish
         window.scrollTo(0, 0);
-
-        // Handle window resize
-        const handleResize = () => {
-            const mobile = window.innerWidth < 768;
-            setIsMobile(mobile);
-            if (mobile) {
-                setDisplayCount(2);
-            } else {
-                setDisplayCount(4);
-            }
-        };
-
-        window.addEventListener('resize', handleResize);
-        return () => window.removeEventListener('resize', handleResize);
-    }, [displayCount]);
+    }, []);
 
     const fetchBlogs = async () => {
         try {
@@ -120,7 +105,7 @@ const BlogList = () => {
                     </div>
                 ) : (
                     <>
-                        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                             {displayedBlogs.map((blog) => (
                                 <div
                                     key={blog.id}
@@ -169,7 +154,7 @@ const BlogList = () => {
                         {hasMore && (
                             <div className="flex justify-center mt-12">
                                 <button
-                                    onClick={() => setDisplayCount(displayCount + (isMobile ? 2 : 4))}
+                                    onClick={() => setDisplayCount(displayCount + 4)}
                                     className="px-8 py-3 bg-[#000000] text-white rounded-xl font-medium hover:bg-[#1a1a1a] transition"
                                 >
                                     Ko'proq ko'rish
