@@ -2,6 +2,27 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
 
+// SPA uchun history API fallback middleware
+const historyApiFallbackMiddleware = () => {
+  return {
+    name: 'history-api-fallback',
+    apply: 'serve',
+    enforce: 'post',
+    handle(ctx) {
+      if (ctx.method !== 'GET') return;
+
+      const url = ctx.url.split('?')[0];
+
+      // API va static fayllarni o'tkazib yuborish
+      if (url.startsWith('/api') || url.includes('.')) return;
+
+      // Boshqa barcha routelar uchun index.html qaytarish
+      ctx.type = 'text/html';
+      ctx.url = '/index.html';
+    }
+  };
+};
+
 export default defineConfig({
   server: {
     host: true,
@@ -11,7 +32,8 @@ export default defineConfig({
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, ''),
       }
-    }
+    },
+    middlewareMode: false,
   },
   build: {
     rollupOptions: {
@@ -30,5 +52,5 @@ export default defineConfig({
       }
     }
   },
-  plugins: [react(), tailwindcss()],
+  plugins: [react(), tailwindcss(), historyApiFallbackMiddleware()],
 });
