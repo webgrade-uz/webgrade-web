@@ -177,7 +177,7 @@ const BlogDetail = () => {
                     {blog.image && (
                         <div className="relative rounded-2xl overflow-hidden bg-gray-900 h-96 lg:h-full lg:min-h-96">
                             <img
-                                src={blog.image}
+                                src={blog.image.startsWith('http') ? blog.image : `${API_URL}${blog.image}`}
                                 alt={blog.title}
                                 className="w-full h-full object-cover"
                                 onError={(e) => {
@@ -234,7 +234,7 @@ const BlogDetail = () => {
                                 {relBlog.image && (
                                     <div className="relative w-full h-40 bg-gray-800 overflow-hidden">
                                         <img
-                                            src={relBlog.image}
+                                            src={relBlog.image.startsWith('http') ? relBlog.image : `${API_URL}${relBlog.image}`}
                                             alt={relBlog.title}
                                             className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
                                             onError={(e) => {
