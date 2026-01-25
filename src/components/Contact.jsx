@@ -154,6 +154,15 @@ const Contact = () => {
       const data = await response.json();
 
       if (data.ok) {
+        // Google Clarity event
+        if (window.clarity) {
+          window.clarity('event', 'contact_form_submitted', {
+            name: formData.name,
+            service: formData.service,
+            requestId: requestId
+          });
+        }
+
         setIsSuccess(true);
         sessionStorage.setItem('lastRequestId', requestId);
         setFormData({ name: "", phone: "+998", service: "", message: "" });

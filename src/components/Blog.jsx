@@ -28,6 +28,13 @@ const Blog = () => {
 
       if (data.success && data.data) {
         setBlogs(data.data);
+
+        // Google Clarity event
+        if (window.clarity) {
+          window.clarity('event', 'blogs_loaded', {
+            count: data.data.length
+          });
+        }
       } else {
         console.warn("API success false yoki data yo'q:", data);
       }
@@ -71,7 +78,16 @@ const Blog = () => {
               {blogs.slice(0, itemsPerPage).map((blog) => (
                 <div
                   key={blog.id}
-                  onClick={() => navigate(`/blog/${blog.id}`)}
+                  onClick={() => {
+                    // Google Clarity event
+                    if (window.clarity) {
+                      window.clarity('event', 'blog_clicked', {
+                        blogId: blog.id,
+                        title: blog.title
+                      });
+                    }
+                    navigate(`/blog/${blog.id}`);
+                  }}
                   className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 group cursor-pointer flex flex-row h-full"
                 >
                   {/* Left - Image */}

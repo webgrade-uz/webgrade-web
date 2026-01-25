@@ -62,6 +62,13 @@ const BlogDetail = () => {
         fetchRelatedBlogs();
         // Sahifaga kirganda scroll yuqoriga qaytarish
         window.scrollTo(0, 0);
+
+        // Google Clarity event
+        if (window.clarity) {
+            window.clarity('event', 'blog_detail_viewed', {
+                blogId: id
+            });
+        }
     }, [id]);
 
     const fetchBlog = async () => {
@@ -70,6 +77,15 @@ const BlogDetail = () => {
             const data = await res.json();
             if (data.success) {
                 setBlog(data.data);
+
+                // Google Clarity event
+                if (window.clarity) {
+                    window.clarity('event', 'blog_loaded', {
+                        blogId: id,
+                        title: data.data.title
+                    });
+                }
+
                 // SEO meta tags
                 document.title = `${data.data.title} | Webgrade Blog`;
 
@@ -227,7 +243,16 @@ const BlogDetail = () => {
                         {relatedBlogs.map((relBlog) => (
                             <div
                                 key={relBlog.id}
-                                onClick={() => navigate(`/blog/${relBlog.id}`)}
+                                onClick={() => {
+                                    // Google Clarity event
+                                    if (window.clarity) {
+                                        window.clarity('event', 'related_blog_clicked', {
+                                            blogId: relBlog.id,
+                                            title: relBlog.title
+                                        });
+                                    }
+                                    navigate(`/blog/${relBlog.id}`);
+                                }}
                                 className="bg-[#1a1a1a] rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 group cursor-pointer flex flex-col h-full"
                             >
                                 {/* Image */}

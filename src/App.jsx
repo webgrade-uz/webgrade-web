@@ -14,6 +14,14 @@ const App = () => {
   const location = useLocation();
   const [isTransitioning, setIsTransitioning] = useState(false);
 
+  // Google Clarity event tracking
+  useEffect(() => {
+    if (window.clarity) {
+      window.clarity('set', 'page_path', location.pathname);
+      window.clarity('event', 'page_view', { path: location.pathname });
+    }
+  }, [location.pathname]);
+
   // Scroll pozitsiyasini saqlab qo'yish
   useEffect(() => {
     const handleBeforeUnload = () => {
