@@ -1,0 +1,413 @@
+import React, { useState, useEffect } from "react";
+import { Send, MessageCircle, User, Phone, ChevronDown, ArrowRight, Check, Sparkles } from "lucide-react";
+import Toast from "../components/Toast";
+
+const STEPS = [
+  { num: "01", title: "Ariza qoldirasiz", desc: "Formani to'ldiring yoki Telegram orqali yozing" },
+  { num: "02", title: "Kelishamiz", desc: "Loyiha tafsilotlarini muhokama qilamiz" },
+  { num: "03", title: "Sayt tayyorlanadi", desc: "Belgilangan muddatda topshiramiz" },
+];
+
+const FEATURES = [
+  "Biznesga mos dizayn",
+  "Mobil va tez ishlash",
+  "Aniq CTA (yozish / qo'ng'iroq)",
+  "Lead yig'ish (forma yoki Telegram)",
+  "Asosiy SEO va to'g'ri struktura",
+];
+
+const Promo67 = () => {
+  const [formData, setFormData] = useState({
+    name: "",
+    phone: "+998",
+    message: "",
+  });
+  const [isLoading, setIsLoading] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
+  const [toast, setToast] = useState(null);
+  const [errors, setErrors] = useState({});
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  useEffect(() => {
+    if (isSuccess) {
+      const timer = setTimeout(() => setIsSuccess(false), 2000);
+      return () => clearTimeout(timer);
+    }
+  }, [isSuccess]);
+
+  const scrollToForm = (e) => {
+    e.preventDefault();
+    document.getElementById("promo-contact")?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  // Validation
+  const validateName = (name) => {
+    if (!name.trim()) return "Ism majburiy";
+    if (name.length < 3) return "Ism kamida 3 ta harf bo'lishi kerak";
+    if (name.length > 18) return "Ism 18 tadan ko'p bo'lmasligi kerak";
+    if (!/^[a-zA-Za-яА-ЯёЁ\s]+$/.test(name)) return "Ism faqat harflardan iborat bo'lishi kerak";
+    return "";
+  };
+
+  const validatePhone = (phone) => {
+    if (!phone.trim()) return "Telefon raqami majburiy";
+    if (!phone.startsWith("+998")) return "Telefon +998 bilan boshlanishi kerak";
+    const phoneNumber = phone.replace("+998", "");
+    if (!/^\d{9}$/.test(phoneNumber)) return "Telefon +998 dan keyin 9 ta raqamdan iborat bo'lishi kerak";
+    const mobileCode = phoneNumber.substring(0, 2);
+    const validCodes = ["90", "91", "92", "93", "94", "95", "97", "98", "99"];
+    if (!validCodes.includes(mobileCode)) return "Noto'g'ri mobil operator kodi";
+    return "";
+  };
+
+  const validateMessage = (message) => {
+    if (!message.trim()) return "Xabar majburiy";
+    if (message.trim().length < 10) return "Xabar kamida 10 ta belgidan iborat bo'lishi kerak";
+    return "";
+  };
+
+  const handlePhoneChange = (e) => {
+    let value = e.target.value;
+    if (!value.startsWith("+998")) {
+      value = "+998" + value.replace(/\D/g, "");
+    }
+    const phoneNumber = value.replace("+998", "");
+    const limitedNumber = phoneNumber.slice(0, 9);
+    if (/^\d*$/.test(limitedNumber)) {
+      setFormData({ ...formData, phone: "+998" + limitedNumber });
+      if (errors.phone) setErrors({ ...errors, phone: "" });
+    }
+  };
+
+  const validateForm = () => {
+    const newErrors = {};
+    const nameError = validateName(formData.name);
+    if (nameError) newErrors.name = nameError;
+    const phoneError = validatePhone(formData.phone);
+    if (phoneError) newErrors.phone = phoneError;
+    const messageError = validateMessage(formData.message);
+    if (messageError) newErrors.message = messageError;
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!validateForm()) return;
+
+    setIsLoading(true);
+    const randomPart = Math.random().toString(36).substring(2, 8).toUpperCase();
+    const requestId = `WG-${randomPart}`;
+
+    const BOT_TOKEN = import.meta.env.VITE_TELEGRAM_BOT_TOKEN;
+    const CHAT_ID = import.meta.env.VITE_TELEGRAM_CHAT_ID;
+    const API_URL = import.meta.env.VITE_API_URL;
+
+    const text = `\u{1F525} Promo #67 so'rov!
+
+\u{1F194} ID: ${requestId}
+
+\u{1F464} Ism: ${formData.name}
+\u{1F4DE} Telefon: ${formData.phone}
+\u{1F6E0} Xizmat: Landing page (aksiya)
+\u{1F4AC} Xabar: ${formData.message}
+
+\u{1F4C5} Sana: ${new Date().toLocaleString("uz-UZ")}`;
+
+    try {
+      await fetch(`${API_URL}/contact`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          id: requestId,
+          name: formData.name,
+          phone: formData.phone,
+          service: "Landing page (aksiya #67)",
+          message: formData.message,
+        }),
+      });
+
+      const response = await fetch(
+        `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ chat_id: CHAT_ID, text }),
+        }
+      );
+
+      const data = await response.json();
+
+      if (data.ok) {
+        if (window.clarity) {
+          window.clarity("event", "promo67_submitted", {
+            name: formData.name,
+            requestId,
+          });
+        }
+        setIsSuccess(true);
+        sessionStorage.setItem("lastRequestId", requestId);
+        setFormData({ name: "", phone: "+998", message: "" });
+        setToast({ message: "So'rovingiz yuborildi!", type: "success" });
+      } else {
+        setToast({ message: "Xabar yuborilmadi. Qayta urinib ko'ring.", type: "error" });
+      }
+    } catch {
+      setToast({ message: "Tarmoq xatosi. Internet aloqasini tekshiring.", type: "error" });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-[#000000] text-white">
+      {toast && (
+        <Toast
+          message={toast.message}
+          type={toast.type}
+          onClose={() => setToast(null)}
+        />
+      )}
+
+      {/* ===== HERO ===== */}
+      <section className="min-h-screen flex items-center justify-center px-6 relative overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(255,255,255,0.03)_0%,transparent_70%)]" />
+
+        <div className="relative z-10 text-center max-w-2xl mx-auto">
+          <div className="inline-flex items-center gap-2 text-[#989898] text-sm font-medium tracking-widest uppercase mb-8">
+            <Sparkles className="w-4 h-4" />
+            <span>Cheklangan taklif</span>
+          </div>
+
+          <h1 className="text-4xl md:text-6xl font-bold leading-tight mb-6">
+            Professional veb-sayt
+            <span className="block text-[#989898] line-through decoration-1 mt-2 text-2xl md:text-3xl font-normal">
+              2 800 000 so'm
+            </span>
+            <span className="block mt-2">800 000 so'm</span>
+          </h1>
+
+          <p className="text-[#989898] text-lg md:text-xl mb-4">
+            10 ta loyiha doirasida
+          </p>
+
+          <div className="mt-10">
+            <a
+              href="#promo-contact"
+              onClick={scrollToForm}
+              className="inline-flex items-center gap-2 bg-white text-[#000000] font-medium px-8 py-4 rounded-xl hover:bg-[#f1f1f1] transition text-lg"
+            >
+              Hoziroq buyurtma bering
+              <ArrowRight className="w-5 h-5" />
+            </a>
+          </div>
+        </div>
+      </section>
+
+      {/* ===== NIMALAR BOR ===== */}
+      <section className="py-24 px-6 bg-[#f1f1f1] text-[#000000]">
+        <div className="max-w-2xl mx-auto">
+          <h2 className="text-3xl md:text-4xl font-bold mb-12 text-center">
+            Sayt ichida nimalar bor?
+          </h2>
+
+          <ul className="space-y-5">
+            {FEATURES.map((feature, i) => (
+              <li key={i} className="flex items-start gap-4">
+                <div className="w-7 h-7 bg-[#000000] rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                  <Check className="w-4 h-4 text-white" />
+                </div>
+                <span className="text-lg">{feature}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      {/* ===== NEGA 800 MING ===== */}
+      <section className="py-24 px-6">
+        <div className="max-w-2xl mx-auto text-center">
+          <h2 className="text-3xl md:text-4xl font-bold mb-12">
+            Nega 800 ming so'm?
+          </h2>
+
+          <div className="space-y-6 text-left">
+            {[
+              { label: "Sabab", text: "Webgrade portfolio bosqichida" },
+              { label: "Asl qiymat", text: "2 800 000 so'm" },
+              { label: "Muhim", text: "Narx vaqtinchalik, sifat o'zgarmaydi" },
+            ].map((item, i) => (
+              <div
+                key={i}
+                className="bg-[#111111] border border-[#989898]/10 rounded-xl p-6"
+              >
+                <span className="text-[#989898] text-sm font-medium uppercase tracking-wider">
+                  {item.label}
+                </span>
+                <p className="text-white text-lg mt-1">{item.text}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ===== QANDAY ISHLAYMIZ ===== */}
+      <section className="py-24 px-6 bg-[#f1f1f1] text-[#000000]">
+        <div className="max-w-2xl mx-auto">
+          <h2 className="text-3xl md:text-4xl font-bold mb-12 text-center">
+            Qanday ishlaymiz?
+          </h2>
+
+          <div className="space-y-8">
+            {STEPS.map((step, i) => (
+              <div key={i} className="flex items-start gap-6">
+                <span className="text-3xl font-bold text-[#989898] flex-shrink-0 w-12">
+                  {step.num}
+                </span>
+                <div>
+                  <h3 className="text-xl font-semibold">{step.title}</h3>
+                  <p className="text-[#989898] mt-1">{step.desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ===== YAKUNIY CTA ===== */}
+      <section className="py-24 px-6 text-center">
+        <div className="max-w-2xl mx-auto">
+          <p className="text-[#989898] line-through text-xl mb-2">
+            2 800 000 so'm
+          </p>
+          <h2 className="text-4xl md:text-5xl font-bold mb-4">
+            800 000 so'm
+          </h2>
+          <p className="text-[#989898] text-lg mb-10">
+            10 ta loyiha doirasida
+          </p>
+          <a
+            href="#promo-contact"
+            onClick={scrollToForm}
+            className="inline-flex items-center gap-2 bg-white text-[#000000] font-medium px-8 py-4 rounded-xl hover:bg-[#f1f1f1] transition text-lg"
+          >
+            Buyurtma berish
+            <ArrowRight className="w-5 h-5" />
+          </a>
+        </div>
+      </section>
+
+      {/* ===== KONTAKT FORM ===== */}
+      <section id="promo-contact" className="py-24 px-6 bg-[#f1f1f1] text-[#000000]">
+        <div className="max-w-lg mx-auto">
+          <div className="text-center mb-10">
+            <h2 className="text-3xl md:text-4xl font-bold">Buyurtma berish</h2>
+            <p className="text-[#989898] mt-3">
+              Formani to'ldiring, tez orada bog'lanamiz
+            </p>
+          </div>
+
+          <div className="bg-white p-8 md:p-10 rounded-3xl shadow-sm">
+            {isSuccess ? (
+              <div className="text-center py-10">
+                <div className="w-20 h-20 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-6">
+                  <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  </svg>
+                </div>
+                <h3 className="text-2xl font-bold mb-3">So'rovingiz yuborildi!</h3>
+                <p className="text-[#989898]">Tez orada siz bilan bog'lanamiz</p>
+              </div>
+            ) : (
+              <form onSubmit={handleSubmit} className="flex flex-col gap-5">
+                <div className="relative group">
+                  <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#989898] group-focus-within:text-[#000000] transition" />
+                  <input
+                    type="text"
+                    placeholder="Ismingiz"
+                    className={`w-full bg-[#f1f1f1] text-[#000000] pl-12 pr-4 py-4 rounded-xl outline-none focus:ring-2 border placeholder-[#989898] transition ${
+                      errors.name
+                        ? "ring-red-500/30 border-red-500/30"
+                        : "ring-[#000000]/20 border-[#989898]/10 focus:border-[#000000]/30"
+                    }`}
+                    value={formData.name}
+                    onChange={(e) => {
+                      setFormData({ ...formData, name: e.target.value });
+                      if (errors.name) setErrors({ ...errors, name: "" });
+                    }}
+                  />
+                  {errors.name && <p className="text-red-500 text-xs mt-1">{errors.name}</p>}
+                </div>
+
+                <div className="relative group">
+                  <Phone className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#989898] group-focus-within:text-[#000000] transition" />
+                  <input
+                    type="text"
+                    placeholder="+998 90 123 45 67"
+                    className={`w-full bg-[#f1f1f1] text-[#000000] pl-12 pr-4 py-4 rounded-xl outline-none focus:ring-2 border placeholder-[#989898] transition ${
+                      errors.phone
+                        ? "ring-red-500/30 border-red-500/30"
+                        : "ring-[#000000]/20 border-[#989898]/10 focus:border-[#000000]/30"
+                    }`}
+                    value={formData.phone}
+                    onChange={handlePhoneChange}
+                    maxLength="13"
+                  />
+                  {errors.phone && <p className="text-red-500 text-xs mt-1">{errors.phone}</p>}
+                </div>
+
+                <div className="relative group">
+                  <MessageCircle className="absolute left-4 top-4 w-5 h-5 text-[#989898] group-focus-within:text-[#000000] transition" />
+                  <textarea
+                    placeholder="Loyihangiz haqida qisqacha..."
+                    rows="4"
+                    className={`w-full bg-[#f1f1f1] text-[#000000] pl-12 pr-4 py-4 rounded-xl outline-none focus:ring-2 border resize-none placeholder-[#989898] transition ${
+                      errors.message
+                        ? "ring-red-500/30 border-red-500/30"
+                        : "ring-[#000000]/20 border-[#989898]/10 focus:border-[#000000]/30"
+                    }`}
+                    value={formData.message}
+                    onChange={(e) => {
+                      setFormData({ ...formData, message: e.target.value });
+                      if (errors.message) setErrors({ ...errors, message: "" });
+                    }}
+                  />
+                  {errors.message && <p className="text-red-500 text-xs mt-1">{errors.message}</p>}
+                </div>
+
+                <button
+                  type="submit"
+                  disabled={isLoading}
+                  className={`font-bold py-4 rounded-xl transition-all flex justify-center items-center gap-2 bg-[#000000] hover:bg-[#1a1a1a] text-white ${
+                    isLoading ? "opacity-70 cursor-not-allowed" : ""
+                  }`}
+                >
+                  {isLoading ? (
+                    <>
+                      <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                      Yuborilmoqda...
+                    </>
+                  ) : (
+                    <>
+                      <Send className="w-5 h-5" />
+                      So'rov yuborish
+                    </>
+                  )}
+                </button>
+
+                <p className="text-[#989898] text-xs text-center mt-2">
+                  Ma'lumotlaringiz xavfsiz saqlanadi
+                </p>
+              </form>
+            )}
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+};
+
+export default Promo67;

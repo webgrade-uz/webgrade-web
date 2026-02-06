@@ -2,6 +2,7 @@ import Company from "./components/Company";
 import Blog from "./components/Blog";
 import BlogDetail from "./pages/BlogDetail";
 import BlogList from "./pages/BlogList";
+import Promo67 from "./pages/Promo67";
 import Contact from "./components/Contact";
 import Header from "./components/Header";
 import Hero from "./components/Hero";
@@ -13,6 +14,7 @@ import { useEffect, useState } from "react";
 const App = () => {
   const location = useLocation();
   const [isTransitioning, setIsTransitioning] = useState(false);
+  const isPromoPage = location.pathname === "/67";
 
   // Google Clarity event tracking
   useEffect(() => {
@@ -55,7 +57,7 @@ const App = () => {
 
   return (
     <>
-      <Header />
+      {!isPromoPage && <Header />}
       {isTransitioning && (
         <div className="fixed inset-0 bg-[#f1f1f1] z-40 pointer-events-none animate-pulse" />
       )}
@@ -71,8 +73,9 @@ const App = () => {
         } />
         <Route path="/blogs" element={<BlogList />} />
         <Route path="/blog/:id" element={<BlogDetail />} />
+        <Route path="/67" element={<Promo67 />} />
       </Routes>
-      <Footer />
+      {!isPromoPage && <Footer />}
     </>
   );
 }
