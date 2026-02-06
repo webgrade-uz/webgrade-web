@@ -12,7 +12,7 @@ const STEPS = [
 
 const FEATURES = [
   { title: "Mobil qurilmalarga moslashgan", desc: "Telefon, planshet va kompyuterda mukammal ishlaydi" },
-  { title: "Tez yuklanish tezligi", desc: "Sayt 2 soniya ichida ochiladi — mijozlar kutmaydi" },
+  { title: "Yuklanish tezligi", desc: "Sayt 2 soniya ichida ochiladi — mijozlar kutmaydi" },
   { title: "CTA tugmalari", desc: "Qo'ng'iroq, Telegram, WhatsApp — bir bosishda aloqa" },
   { title: "Lead yig'ish formasi", desc: "Forma yoki Telegram bot orqali so'rovlarni qabul qiling" },
   { title: "SEO asoslari", desc: "Google va Yandexda topilish uchun to'g'ri struktura" },
