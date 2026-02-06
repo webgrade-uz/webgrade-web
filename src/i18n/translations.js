@@ -27,7 +27,7 @@ export const translations = {
                     title: "Veb-sayt yaratish",
                     desc: "Zamonavoy va responsive veb-saytlar",
                     prices: [
-                        { name: "Landing page", price: "4 300 000 so'm +" },
+                        { name: "Landing page", price: "2 800 000 so'm +" },
                         { name: "Korporativ sayt", price: "6 500 000 so'm +" },
                         { name: "E-commerce", price: "10 000 000 so'm +" },
                     ],

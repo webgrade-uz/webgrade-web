@@ -4,17 +4,20 @@ import Toast from "../components/Toast";
 import Squares from "../components/Squares";
 
 const STEPS = [
-  { num: "01", title: "Ariza qoldirasiz", desc: "Formani to'ldiring yoki Telegram orqali yozing" },
-  { num: "02", title: "Kelishamiz", desc: "Loyiha tafsilotlarini muhokama qilamiz" },
-  { num: "03", title: "Sayt tayyorlanadi", desc: "Belgilangan muddatda topshiramiz" },
+  { num: "01", title: "Ariza qoldirasiz", desc: "Formani to'ldiring yoki Telegram orqali yozing — 1 daqiqa vaqtingizni oladi" },
+  { num: "02", title: "Kelishuv", desc: "Loyihangiz haqida gaplashamiz, ehtiyojlaringizni aniqlaymiz" },
+  { num: "03", title: "Dasturlash bosqichi", desc: "Tasdiqlangan dizayn asosida sayt kodlanadi" },
+  { num: "04", title: "Sayt topshiriladi", desc: "Tayyor sayt hosting va domenga joylashtiriladi" },
 ];
 
 const FEATURES = [
-  "Biznesga mos dizayn",
-  "Mobil va tez ishlash",
-  "Aniq CTA (yozish / qo'ng'iroq)",
-  "Lead yig'ish (forma yoki Telegram)",
-  "Asosiy SEO va to'g'ri struktura",
+  { title: "Mobil qurilmalarga moslashgan", desc: "Telefon, planshet va kompyuterda mukammal ishlaydi" },
+  { title: "Tez yuklanish tezligi", desc: "Sayt 2 soniya ichida ochiladi — mijozlar kutmaydi" },
+  { title: "CTA tugmalari", desc: "Qo'ng'iroq, Telegram, WhatsApp — bir bosishda aloqa" },
+  { title: "Lead yig'ish formasi", desc: "Forma yoki Telegram bot orqali so'rovlarni qabul qiling" },
+  { title: "SEO asoslari", desc: "Google va Yandexda topilish uchun to'g'ri struktura" },
+  { title: "Hosting va domen", desc: "Saytni internetga joylashtirishda yordam beramiz" },
+  { title: "SSL sertifikat", desc: "Saytingiz xavfsiz — https bilan ishlaydi" },
 ];
 
 const Promo67 = () => {
@@ -240,7 +243,7 @@ const Promo67 = () => {
       <section className="py-24 px-6 bg-[#f1f1f1] text-[#000000]">
         <div className="max-w-2xl mx-auto">
           <h2 className="text-3xl md:text-4xl font-bold mb-12 text-center">
-            Sayt ichida nimalar bor?
+            Sayt ichida <br className="md:hidden" />nimalar bor?
           </h2>
 
           <ul className="space-y-5">
@@ -249,7 +252,10 @@ const Promo67 = () => {
                 <div className="w-7 h-7 bg-[#000000] rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
                   <Check className="w-4 h-4 text-white" />
                 </div>
-                <span className="text-lg">{feature}</span>
+                <div>
+                  <span className="text-lg font-semibold">{feature.title}</span>
+                  <p className="text-[#989898] text-sm mt-0.5">{feature.desc}</p>
+                </div>
               </li>
             ))}
           </ul>
@@ -265,9 +271,12 @@ const Promo67 = () => {
 
           <div className="space-y-6 text-left">
             {[
-              { label: "Sabab", text: "Webgrade portfolio bosqichida" },
-              { label: "Asl qiymat", text: "2 800 000 so'm" },
-              { label: "Muhim", text: "Narx vaqtinchalik, sifat o'zgarmaydi" },
+              { label: "Sabab", text: "Webgrade portfolio bosqichida", desc: "Biz hozir yangi loyihalar to'plash bosqichidamiz — shuning uchun maxsus narx taklif qilamiz" },
+              { label: "Asl qiymat", text: "2 800 000 so'm", desc: "Bu xizmatning haqiqiy bozor narxi — siz 70% chegirma olasiz" },
+              { label: "Sifat", text: "Professional darajada", desc: "Arzon narx — past sifat degani emas. Zamonaviy texnologiyalar va toza kod" },
+              { label: "Muddat", text: "3-7 kun ichida tayyor", desc: "Loyiha murakkabligiga qarab, saytingiz qisqa muddatda topshiriladi" },
+              { label: "Qo'shimcha xarajat yo'q", text: "Barcha narx ichida", desc: "Dizayn, dasturlash, mobilga moslashtirish — hammasi bitta narxda" },
+              { label: "Muhim", text: "Narx vaqtinchalik, sifat o'zgarmaydi", desc: "10 ta joy to'lgach aksiya tugaydi va narx asl holatiga qaytadi" },
             ].map((item, i) => (
               <div
                 key={i}
@@ -277,6 +286,7 @@ const Promo67 = () => {
                   {item.label}
                 </span>
                 <p className="text-white text-lg mt-1">{item.text}</p>
+                <p className="text-[#989898] text-sm mt-2">{item.desc}</p>
               </div>
             ))}
           </div>
@@ -360,7 +370,7 @@ const Promo67 = () => {
                     }`}
                     value={formData.phone}
                     onChange={handlePhoneChange}
-                    maxLength="13"
+                    maxLength="17"
                   />
                   {errors.phone && <p className="text-red-500 text-xs mt-1">{errors.phone}</p>}
                 </div>
