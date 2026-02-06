@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Send, MessageCircle, User, Phone, ChevronDown, ArrowRight, Check, Sparkles } from "lucide-react";
 import Toast from "../components/Toast";
+import Squares from "../components/Squares";
 
 const STEPS = [
   { num: "01", title: "Ariza qoldirasiz", desc: "Formani to'ldiring yoki Telegram orqali yozing" },
@@ -183,7 +184,15 @@ const Promo67 = () => {
 
       {/* ===== HERO ===== */}
       <section className="min-h-screen flex items-center justify-center px-6 relative overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(255,255,255,0.03)_0%,transparent_70%)]" />
+        <div className="absolute inset-0">
+          <Squares
+            speed={0.5}
+            squareSize={40}
+            direction="diagonal"
+            borderColor="#271E37"
+            hoverFillColor="#222"
+          />
+        </div>
 
         <div className="relative z-10 text-center max-w-2xl mx-auto">
           <div className="inline-flex items-center gap-2 text-[#989898] text-sm font-medium tracking-widest uppercase mb-8">
@@ -192,7 +201,9 @@ const Promo67 = () => {
           </div>
 
           <h1 className="text-4xl md:text-6xl font-bold leading-tight mb-6">
-            Professional veb-sayt
+            Biznesingiz uchun
+            <br />
+            sayt
             <span className="block text-[#989898] line-through decoration-1 mt-2 text-2xl md:text-3xl font-normal">
               2 800 000 so'm
             </span>
@@ -292,29 +303,6 @@ const Promo67 = () => {
               </div>
             ))}
           </div>
-        </div>
-      </section>
-
-      {/* ===== YAKUNIY CTA ===== */}
-      <section className="py-24 px-6 text-center">
-        <div className="max-w-2xl mx-auto">
-          <p className="text-[#989898] line-through text-xl mb-2">
-            2 800 000 so'm
-          </p>
-          <h2 className="text-4xl md:text-5xl font-bold mb-4">
-            800 000 so'm
-          </h2>
-          <p className="text-[#989898] text-lg mb-10">
-            Faqat 10 ta mijoz uchun
-          </p>
-          <a
-            href="#promo-contact"
-            onClick={scrollToForm}
-            className="inline-flex items-center gap-2 bg-white text-[#000000] font-medium px-8 py-4 rounded-xl hover:bg-[#f1f1f1] transition text-lg"
-          >
-            Buyurtma berish
-            <ArrowRight className="w-5 h-5" />
-          </a>
         </div>
       </section>
 
