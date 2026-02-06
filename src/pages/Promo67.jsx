@@ -19,7 +19,7 @@ const FEATURES = [
 const Promo67 = () => {
   const [formData, setFormData] = useState({
     name: "",
-    phone: "+998",
+    phone: "+998 ",
     message: "",
   });
   const [isLoading, setIsLoading] = useState(false);
@@ -55,11 +55,8 @@ const Promo67 = () => {
   const validatePhone = (phone) => {
     if (!phone.trim()) return "Telefon raqami majburiy";
     if (!phone.startsWith("+998")) return "Telefon +998 bilan boshlanishi kerak";
-    const phoneNumber = phone.replace("+998", "");
-    if (!/^\d{9}$/.test(phoneNumber)) return "Telefon +998 dan keyin 9 ta raqamdan iborat bo'lishi kerak";
-    const mobileCode = phoneNumber.substring(0, 2);
-    const validCodes = ["90", "91", "92", "93", "94", "95", "97", "98", "99"];
-    if (!validCodes.includes(mobileCode)) return "Noto'g'ri mobil operator kodi";
+    const raw = phone.replace(/\D/g, "").slice(3);
+    if (raw.length !== 9) return "Telefon raqami to'liq emas";
     return "";
   };
 
@@ -69,17 +66,29 @@ const Promo67 = () => {
     return "";
   };
 
+  const formatPhone = (raw) => {
+    // raw = faqat raqamlar, +998 dan keyingi
+    let formatted = "+998";
+    if (raw.length > 0) formatted += " " + raw.slice(0, 2);
+    if (raw.length > 2) formatted += " " + raw.slice(2, 5);
+    if (raw.length > 5) formatted += " " + raw.slice(5, 7);
+    if (raw.length > 7) formatted += " " + raw.slice(7, 9);
+    return formatted;
+  };
+
   const handlePhoneChange = (e) => {
-    let value = e.target.value;
-    if (!value.startsWith("+998")) {
-      value = "+998" + value.replace(/\D/g, "");
+    const input = e.target.value;
+    // Barcha raqamlarni ajratib olish
+    const digits = input.replace(/\D/g, "");
+    // 998 dan keyingi raqamlar (max 9 ta)
+    let raw;
+    if (digits.startsWith("998")) {
+      raw = digits.slice(3, 12);
+    } else {
+      raw = digits.slice(0, 9);
     }
-    const phoneNumber = value.replace("+998", "");
-    const limitedNumber = phoneNumber.slice(0, 9);
-    if (/^\d*$/.test(limitedNumber)) {
-      setFormData({ ...formData, phone: "+998" + limitedNumber });
-      if (errors.phone) setErrors({ ...errors, phone: "" });
-    }
+    setFormData({ ...formData, phone: formatPhone(raw) });
+    if (errors.phone) setErrors({ ...errors, phone: "" });
   };
 
   const validateForm = () => {
@@ -150,7 +159,7 @@ const Promo67 = () => {
         }
         setIsSuccess(true);
         sessionStorage.setItem("lastRequestId", requestId);
-        setFormData({ name: "", phone: "+998", message: "" });
+        setFormData({ name: "", phone: "+998 ", message: "" });
         setToast({ message: "So'rovingiz yuborildi!", type: "success" });
       } else {
         setToast({ message: "Xabar yuborilmadi. Qayta urinib ko'ring.", type: "error" });
@@ -191,17 +200,26 @@ const Promo67 = () => {
           </h1>
 
           <p className="text-[#989898] text-lg md:text-xl mb-4">
-            10 ta loyiha doirasida
+            Faqat 10 ta mijoz uchun
           </p>
 
-          <div className="mt-10">
+          <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center">
             <a
               href="#promo-contact"
               onClick={scrollToForm}
-              className="inline-flex items-center gap-2 bg-white text-[#000000] font-medium px-8 py-4 rounded-xl hover:bg-[#f1f1f1] transition text-lg"
+              className="inline-flex items-center justify-center gap-2 bg-white text-[#000000] font-medium px-8 py-4 rounded-xl hover:bg-[#f1f1f1] transition text-lg"
             >
-              Hoziroq buyurtma bering
+              Hoziroq buyurtma berish
               <ArrowRight className="w-5 h-5" />
+            </a>
+            <a
+              href="https://t.me/webgrade_uz"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center gap-2 border border-white text-white font-medium px-8 py-4 rounded-xl hover:bg-white hover:text-[#000000] transition text-lg"
+            >
+              <Send className="w-5 h-5" />
+              Telegram orqali bog'lanish
             </a>
           </div>
         </div>
@@ -287,7 +305,7 @@ const Promo67 = () => {
             800 000 so'm
           </h2>
           <p className="text-[#989898] text-lg mb-10">
-            10 ta loyiha doirasida
+            Faqat 10 ta mijoz uchun
           </p>
           <a
             href="#promo-contact"
@@ -346,7 +364,7 @@ const Promo67 = () => {
                   <Phone className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#989898] group-focus-within:text-[#000000] transition" />
                   <input
                     type="text"
-                    placeholder="+998 90 123 45 67"
+                    placeholder="+998 33 888 01 33"
                     className={`w-full bg-[#f1f1f1] text-[#000000] pl-12 pr-4 py-4 rounded-xl outline-none focus:ring-2 border placeholder-[#989898] transition ${
                       errors.phone
                         ? "ring-red-500/30 border-red-500/30"
