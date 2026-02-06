@@ -11,6 +11,7 @@ const STEPS = [
 ];
 
 const FEATURES = [
+  { title: "1-2 sahifalik sayt", desc: "Biznesingizga kerakli barcha ma'lumotlar bir joyda — ixcham va tushunarli" },
   { title: "Mobil qurilmalarga moslashgan", desc: "Telefon, planshet va kompyuterda mukammal ishlaydi" },
   { title: "Yuklanish tezligi", desc: "Sayt 2 soniya ichida ochiladi — mijozlar kutmaydi" },
   { title: "CTA tugmalari", desc: "Qo'ng'iroq, Telegram, WhatsApp — bir bosishda aloqa" },
@@ -33,6 +34,15 @@ const Promo67 = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
+
+    // Microsoft Clarity faqat /67 sahifasi uchun
+    if (!window.clarity) {
+      (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+      })(window, document, "clarity", "script", "vd9ruts62h");
+    }
   }, []);
 
   useEffect(() => {
@@ -275,7 +285,7 @@ const Promo67 = () => {
               { label: "Asl qiymat", text: "2 800 000 so'm", desc: "Bu xizmatning haqiqiy bozor narxi — siz 70% chegirma olasiz" },
               { label: "Sifat", text: "Professional darajada", desc: "Arzon narx — past sifat degani emas. Zamonaviy texnologiyalar va toza kod" },
               { label: "Muddat", text: "3-7 kun ichida tayyor", desc: "Loyiha murakkabligiga qarab, saytingiz qisqa muddatda topshiriladi" },
-              { label: "Qo'shimcha xarajat yo'q", text: "Barcha narx ichida", desc: "Dizayn, dasturlash, mobilga moslashtirish — hammasi bitta narxda" },
+              { label: "Qo'shimcha xarajat yo'q", text: "Barchasi shu narx ichida", desc: "Dizayn, dasturlash, mobilga moslashtirish — hammasi bitta narxda" },
               { label: "Muhim", text: "Narx vaqtinchalik, sifat o'zgarmaydi", desc: "10 ta joy to'lgach aksiya tugaydi va narx asl holatiga qaytadi" },
             ].map((item, i) => (
               <div
