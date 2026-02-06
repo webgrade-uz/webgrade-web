@@ -201,9 +201,9 @@ const Promo67 = () => {
           </div>
 
           <h1 className="text-4xl md:text-6xl font-bold leading-tight mb-6">
-            Biznesingiz uchun
-            <br />
-            sayt
+            Biznesingiz{" "}
+            <br className="md:hidden" />
+            uchun sayt
             <span className="block text-[#989898] line-through decoration-1 mt-2 text-2xl md:text-3xl font-normal">
               2 800 000 so'm
             </span>
@@ -307,7 +307,7 @@ const Promo67 = () => {
       </section>
 
       {/* ===== KONTAKT FORM ===== */}
-      <section id="promo-contact" className="py-24 px-6 bg-[#f1f1f1] text-[#000000]">
+      <section id="promo-contact" className="py-24 px-6 bg-[#f1f1f1] text-[#000000] border-t border-[#000000]">
         <div className="max-w-lg mx-auto">
           <div className="text-center mb-10">
             <h2 className="text-3xl md:text-4xl font-bold">Buyurtma berish</h2>
@@ -316,7 +316,7 @@ const Promo67 = () => {
             </p>
           </div>
 
-          <div className="bg-white p-8 md:p-10 rounded-3xl shadow-sm">
+          <div className="bg-white p-8 md:p-10 rounded-3xl shadow-sm border border-[#989898]/20">
             {isSuccess ? (
               <div className="text-center py-10">
                 <div className="w-20 h-20 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-6">
