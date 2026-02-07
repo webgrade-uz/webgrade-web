@@ -225,10 +225,21 @@ const Promo67 = () => {
         </div>
 
         <div className="relative z-10 text-center max-w-2xl mx-auto">
-          <div className="inline-flex items-center gap-2 text-[#989898] text-sm font-medium tracking-widest uppercase mb-8">
+          <div className="inline-flex items-center gap-2 text-[#989898] text-sm font-medium tracking-widest uppercase mb-8 animate-shake">
             <Sparkles className="w-4 h-4" />
             <span>Cheklangan taklif</span>
           </div>
+
+          <style>{`
+            @keyframes shake {
+              0%, 100% { transform: translateX(0); }
+              10%, 30%, 50%, 70%, 90% { transform: translateX(-2px); }
+              20%, 40%, 60%, 80% { transform: translateX(2px); }
+            }
+            .animate-shake {
+              animation: shake 3s ease-in-out infinite;
+            }
+          `}</style>
 
           <h1 className="text-5xl md:text-6xl font-bold leading-tight mb-6">
             Biznesingiz{" "}
