@@ -269,17 +269,17 @@ const Promo67 = () => {
 
       {/* ===== HERO ===== */}
       <section className="min-h-[600px] md:min-h-screen py-32 md:py-48 pb-36 md:pb-48 flex items-center justify-center px-6 relative overflow-hidden bg-[#000000]">
-        <div className="absolute inset-0">
+        <div className="absolute inset-0 opacity-25">
           <Squares
-            speed={0.5}
+            speed={0.2}
             squareSize={40}
             direction="diagonal"
-            borderColor="#271E37"
-            hoverFillColor="#222"
+            borderColor="#888888"
+            hoverFillColor="#555"
           />
         </div>
 
-        <div className="relative z-10 text-center max-w-2xl mx-auto -mt-[20%]">
+        <div className="relative z-10 text-center max-w-2xl mx-auto -mt-[20%] md:mt-0">
           <div className="inline-flex items-center gap-2 text-[#989898] text-sm font-medium tracking-widest uppercase mb-8">
             <Sparkles className="w-4 h-4" />
             <span>Cheklangan taklif</span>
