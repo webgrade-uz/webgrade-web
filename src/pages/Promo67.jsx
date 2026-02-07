@@ -274,7 +274,7 @@ const Promo67 = () => {
           />
         </div>
 
-        <div className="relative z-10 text-center max-w-2xl mx-auto">
+        <div className="relative z-10 text-center max-w-2xl mx-auto -mt-[10%]">
           <div className="inline-flex items-center gap-2 text-[#989898] text-sm font-medium tracking-widest uppercase mb-8">
             <Sparkles className="w-4 h-4" />
             <span>Cheklangan taklif</span>
@@ -294,7 +294,7 @@ const Promo67 = () => {
           <h1 className="text-5xl md:text-6xl font-bold leading-tight mb-6">
             Biznesingiz{" "}
             <br className="md:hidden" />
-            uchun sayt
+            uchun SAYT
             <span className="block text-[#989898] line-through decoration-1 mt-2 text-2xl md:text-3xl font-normal">
               2 800 000 so'm
             </span>
@@ -548,7 +548,7 @@ const Promo67 = () => {
       {/* ===== FOOTER ===== */}
       <footer className="py-6 px-6 bg-[#000000] text-center">
         <a
-          href="https://t.me/webgrade_uz"
+          href="https://t.me/webgradeuz"
           target="_blank"
           rel="noopener noreferrer"
           className="inline-flex items-center justify-center gap-2 border border-[#989898]/30 text-[#989898] text-sm font-medium px-5 py-2.5 rounded-lg hover:bg-white hover:text-[#000000] transition"
