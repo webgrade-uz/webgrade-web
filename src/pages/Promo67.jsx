@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Send, MessageCircle, User, Phone, ChevronDown, ArrowRight, Check, Sparkles } from "lucide-react";
 import Toast from "../components/Toast";
 import Squares from "../components/Squares";
@@ -31,9 +31,26 @@ const Promo67 = () => {
   const [isSuccess, setIsSuccess] = useState(false);
   const [toast, setToast] = useState(null);
   const [errors, setErrors] = useState({});
+  const [visibleCards, setVisibleCards] = useState(new Set());
+  const cardRefs = useRef([]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
+
+    // Scroll fade-in observer
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const idx = Number(entry.target.dataset.idx);
+            setVisibleCards((prev) => new Set([...prev, idx]));
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.15 }
+    );
+    cardRefs.current.forEach((el) => el && observer.observe(el));
 
     // Microsoft Clarity faqat /67 sahifasi uchun
     if (!window.clarity) {
@@ -213,7 +230,7 @@ const Promo67 = () => {
             <span>Cheklangan taklif</span>
           </div>
 
-          <h1 className="text-4xl md:text-6xl font-bold leading-tight mb-6">
+          <h1 className="text-5xl md:text-6xl font-bold leading-tight mb-6">
             Biznesingiz{" "}
             <br className="md:hidden" />
             uchun sayt
@@ -290,7 +307,14 @@ const Promo67 = () => {
             ].map((item, i) => (
               <div
                 key={i}
-                className="bg-[#111111] border border-[#989898]/10 rounded-xl p-6"
+                ref={(el) => (cardRefs.current[i] = el)}
+                data-idx={i}
+                className="bg-[#111111] border border-[#989898]/10 rounded-xl p-6 transition-all duration-700 ease-out"
+                style={{
+                  opacity: visibleCards.has(i) ? 1 : 0,
+                  transform: visibleCards.has(i) ? "translateY(0)" : "translateY(30px)",
+                  transitionDelay: `${i * 100}ms`,
+                }}
               >
                 <span className="text-[#989898] text-sm font-medium uppercase tracking-wider">
                   {item.label}
