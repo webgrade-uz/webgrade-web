@@ -279,7 +279,7 @@ const Promo67 = () => {
           />
         </div>
 
-        <div className="relative z-10 text-center max-w-2xl mx-auto -mt-[10%] md:mt-0">
+        <div className="relative z-10 text-center max-w-2xl mx-auto -mt-[20%] md:mt-0">
           <div className="inline-flex items-center gap-2 text-[#989898] text-sm font-medium tracking-widest uppercase mb-8">
             <Sparkles className="w-4 h-4" />
             <span>Cheklangan taklif</span>
