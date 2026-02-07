@@ -16,8 +16,8 @@ const FEATURES = [
   { title: "Yuklanish tezligi", desc: "Sayt 2 soniya ichida ochiladi — mijozlar kutmaydi" },
   { title: "CTA tugmalari", desc: "Qo'ng'iroq, Telegram, WhatsApp — bir bosishda aloqa" },
   { title: "Lead yig'ish formasi", desc: "Forma yoki Telegram bot orqali so'rovlarni qabul qiling" },
-  { title: "SEO asoslari", desc: "Google va Yandexda topilish uchun to'g'ri struktura" },
-  { title: "Hosting va domen", desc: "Saytni internetga joylashtirishda yordam beramiz" },
+  { title: "SEO asoslari", desc: "Googleda topilish uchun to'g'ri struktura" },
+  { title: "Hosting va domen", desc: "Saytni internetga joylab beramiz" },
   { title: "SSL sertifikat", desc: "Saytingiz xavfsiz — https bilan ishlaydi" },
 ];
 
@@ -42,7 +42,12 @@ const Promo67 = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
+    document.body.style.backgroundColor = "#000000";
+    document.documentElement.style.backgroundColor = "#000000";
+    return () => { document.body.style.backgroundColor = ""; document.documentElement.style.backgroundColor = ""; };
+  }, []);
 
+  useEffect(() => {
     // Scroll fade-in observer
     const observer = new IntersectionObserver(
       (entries) => {
@@ -263,7 +268,7 @@ const Promo67 = () => {
       )}
 
       {/* ===== HERO ===== */}
-      <section className="min-h-[600px] md:min-h-screen py-32 md:py-48 flex items-center justify-center px-6 relative overflow-hidden">
+      <section className="min-h-[600px] md:min-h-screen py-32 md:py-48 pb-36 md:pb-48 flex items-center justify-center px-6 relative overflow-hidden bg-[#000000]">
         <div className="absolute inset-0">
           <Squares
             speed={0.5}
@@ -361,7 +366,7 @@ const Promo67 = () => {
       </section>
 
       {/* ===== NEGA 800 MING ===== */}
-      <section className="py-24 md:py-44 px-6">
+      <section className="py-24 md:py-44 px-6 bg-[#000000]">
         <div className="max-w-2xl md:max-w-4xl mx-auto text-center">
           <h2 className="text-3xl md:text-4xl font-bold mb-12">
             Nega 800 ming so'm?
