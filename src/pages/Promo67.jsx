@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Send, MessageCircle, User, Phone, ChevronDown, ArrowRight, Check, Sparkles } from "lucide-react";
+import { Send, MessageCircle, User, Phone, ArrowRight, Check, Sparkles } from "lucide-react";
 import Toast from "../components/Toast";
 import Squares from "../components/Squares";
 
@@ -263,7 +263,7 @@ const Promo67 = () => {
       )}
 
       {/* ===== HERO ===== */}
-      <section className="min-h-[600px] py-32 md:py-40 flex items-center justify-center px-6 relative overflow-hidden">
+      <section className="min-h-[600px] md:min-h-screen py-32 md:py-48 flex items-center justify-center px-6 relative overflow-hidden">
         <div className="absolute inset-0">
           <Squares
             speed={0.5}
@@ -301,10 +301,6 @@ const Promo67 = () => {
             <span className="block mt-2">800 000 so'm</span>
           </h1>
 
-          <p className="text-[#989898] text-lg md:text-xl mb-6 animate-shake">
-            Faqat 10 ta mijoz uchun
-          </p>
-
           <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center">
             <a
               href="#promo-contact"
@@ -312,7 +308,7 @@ const Promo67 = () => {
               className="inline-flex items-center justify-center gap-2 bg-white text-[#000000] font-medium px-8 py-4 rounded-xl hover:bg-[#f1f1f1] transition text-lg"
             >
               Hoziroq buyurtma berish
-              <ArrowRight className="w-5 h-5" />
+              <ArrowRight className="w-5 h-5 rotate-90" />
             </a>
             <a
               href="https://t.me/webgradeuz"
@@ -320,16 +316,20 @@ const Promo67 = () => {
               rel="noopener noreferrer"
               className="inline-flex items-center justify-center gap-2 border border-white text-white font-medium px-8 py-4 rounded-xl hover:bg-white hover:text-[#000000] transition text-lg"
             >
-              <Send className="w-5 h-5" />
+              <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
               Telegram orqali bog'lanish
             </a>
           </div>
+
+          <p className="text-[#989898] text-lg md:text-xl mt-8 animate-shake">
+            Faqat 10 ta mijoz uchun
+          </p>
         </div>
       </section>
 
       {/* ===== NIMALAR BOR ===== */}
-      <section className="py-24 px-6 bg-[#f1f1f1] text-[#000000]">
-        <div className="max-w-2xl mx-auto">
+      <section className="py-24 md:py-44 px-6 bg-[#f1f1f1] text-[#000000]">
+        <div className="max-w-2xl md:max-w-4xl mx-auto">
           <h2 className="text-3xl md:text-4xl font-bold mb-12 text-center">
             Sayt ichida <br className="md:hidden" />nimalar bor?
           </h2>
@@ -361,8 +361,8 @@ const Promo67 = () => {
       </section>
 
       {/* ===== NEGA 800 MING ===== */}
-      <section className="py-24 px-6">
-        <div className="max-w-2xl mx-auto text-center">
+      <section className="py-24 md:py-44 px-6">
+        <div className="max-w-2xl md:max-w-4xl mx-auto text-center">
           <h2 className="text-3xl md:text-4xl font-bold mb-12">
             Nega 800 ming so'm?
           </h2>
@@ -399,8 +399,8 @@ const Promo67 = () => {
       </section>
 
       {/* ===== QANDAY ISHLAYMIZ ===== */}
-      <section className="py-24 px-6 bg-[#f1f1f1] text-[#000000]">
-        <div className="max-w-2xl mx-auto">
+      <section className="py-24 md:py-44 px-6 bg-[#f1f1f1] text-[#000000]">
+        <div className="max-w-2xl md:max-w-4xl mx-auto">
           <h2 className="text-3xl md:text-4xl font-bold mb-12 text-center">
             Qanday ishlaymiz?
           </h2>
@@ -432,7 +432,7 @@ const Promo67 = () => {
       </section>
 
       {/* ===== KONTAKT FORM ===== */}
-      <section id="promo-contact" className="py-24 px-6 bg-[#f1f1f1] text-[#000000] border-t border-[#000000]">
+      <section id="promo-contact" className="py-24 md:py-44 px-6 bg-[#f1f1f1] text-[#000000] border-t border-[#000000]">
         <div className="max-w-lg mx-auto">
           <div className="text-center mb-10">
             <h2 className="text-3xl md:text-4xl font-bold">Buyurtma berish</h2>
