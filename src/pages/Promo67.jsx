@@ -315,7 +315,7 @@ const Promo67 = () => {
               <ArrowRight className="w-5 h-5" />
             </a>
             <a
-              href="https://t.me/webgrade_uz"
+              href="https://t.me/webgradeuz"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center justify-center gap-2 border border-white text-white font-medium px-8 py-4 rounded-xl hover:bg-white hover:text-[#000000] transition text-lg"
