@@ -32,7 +32,13 @@ const Promo67 = () => {
   const [toast, setToast] = useState(null);
   const [errors, setErrors] = useState({});
   const [visibleCards, setVisibleCards] = useState(new Set());
+  const [visibleFeatures, setVisibleFeatures] = useState(new Set());
+  const [visibleSteps, setVisibleSteps] = useState(new Set());
+  const [formVisible, setFormVisible] = useState(false);
   const cardRefs = useRef([]);
+  const featureRefs = useRef([]);
+  const stepRefs = useRef([]);
+  const formRef = useRef(null);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -51,6 +57,50 @@ const Promo67 = () => {
       { threshold: 0.15 }
     );
     cardRefs.current.forEach((el) => el && observer.observe(el));
+
+    // Features — slide from left
+    const featureObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const idx = Number(entry.target.dataset.idx);
+            setVisibleFeatures((prev) => new Set([...prev, idx]));
+            featureObserver.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+    featureRefs.current.forEach((el) => el && featureObserver.observe(el));
+
+    // Steps — slide from right
+    const stepObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const idx = Number(entry.target.dataset.idx);
+            setVisibleSteps((prev) => new Set([...prev, idx]));
+            stepObserver.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+    stepRefs.current.forEach((el) => el && stepObserver.observe(el));
+
+    // Form — scale up
+    const formObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setFormVisible(true);
+            formObserver.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.15 }
+    );
+    if (formRef.current) formObserver.observe(formRef.current);
 
     // Microsoft Clarity faqat /67 sahifasi uchun
     if (!window.clarity) {
@@ -213,7 +263,7 @@ const Promo67 = () => {
       )}
 
       {/* ===== HERO ===== */}
-      <section className="min-h-screen flex items-center justify-center px-6 relative overflow-hidden">
+      <section className="h-screen flex items-center justify-center px-6 relative overflow-hidden">
         <div className="absolute inset-0">
           <Squares
             speed={0.5}
@@ -225,19 +275,19 @@ const Promo67 = () => {
         </div>
 
         <div className="relative z-10 text-center max-w-2xl mx-auto">
-          <div className="inline-flex items-center gap-2 text-[#989898] text-sm font-medium tracking-widest uppercase mb-8 animate-shake">
+          <div className="inline-flex items-center gap-2 text-[#989898] text-sm font-medium tracking-widest uppercase mb-8">
             <Sparkles className="w-4 h-4" />
             <span>Cheklangan taklif</span>
           </div>
 
           <style>{`
             @keyframes shake {
-              0%, 100% { transform: translateX(0); }
-              10%, 30%, 50%, 70%, 90% { transform: translateX(-2px); }
-              20%, 40%, 60%, 80% { transform: translateX(2px); }
+              0%, 50%, 100% { transform: translateX(0); }
+              52%, 56%, 60%, 64%, 68% { transform: translateX(-2px); }
+              54%, 58%, 62%, 66%, 70% { transform: translateX(2px); }
             }
             .animate-shake {
-              animation: shake 3s ease-in-out infinite;
+              animation: shake 4s ease-in-out infinite;
             }
           `}</style>
 
@@ -251,7 +301,7 @@ const Promo67 = () => {
             <span className="block mt-2">800 000 so'm</span>
           </h1>
 
-          <p className="text-[#989898] text-lg md:text-xl mb-4">
+          <p className="text-[#989898] text-lg md:text-xl mb-6 animate-shake">
             Faqat 10 ta mijoz uchun
           </p>
 
@@ -286,7 +336,17 @@ const Promo67 = () => {
 
           <ul className="space-y-5">
             {FEATURES.map((feature, i) => (
-              <li key={i} className="flex items-start gap-4">
+              <li
+                key={i}
+                ref={(el) => (featureRefs.current[i] = el)}
+                data-idx={i}
+                className="flex items-start gap-4 transition-all duration-600 ease-out"
+                style={{
+                  opacity: visibleFeatures.has(i) ? 1 : 0,
+                  transform: visibleFeatures.has(i) ? "translateX(0)" : "translateX(-40px)",
+                  transitionDelay: `${i * 80}ms`,
+                }}
+              >
                 <div className="w-7 h-7 bg-[#000000] rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
                   <Check className="w-4 h-4 text-white" />
                 </div>
@@ -347,7 +407,17 @@ const Promo67 = () => {
 
           <div className="space-y-8">
             {STEPS.map((step, i) => (
-              <div key={i} className="flex items-start gap-6">
+              <div
+                key={i}
+                ref={(el) => (stepRefs.current[i] = el)}
+                data-idx={i}
+                className="flex items-start gap-6 transition-all duration-600 ease-out"
+                style={{
+                  opacity: visibleSteps.has(i) ? 1 : 0,
+                  transform: visibleSteps.has(i) ? "translateX(0)" : "translateX(40px)",
+                  transitionDelay: `${i * 120}ms`,
+                }}
+              >
                 <span className="text-3xl font-bold text-[#989898] flex-shrink-0 w-12">
                   {step.num}
                 </span>
@@ -371,7 +441,14 @@ const Promo67 = () => {
             </p>
           </div>
 
-          <div className="bg-white p-8 md:p-10 rounded-3xl shadow-sm border border-[#989898]/20">
+          <div
+            ref={formRef}
+            className="bg-white p-8 md:p-10 rounded-3xl shadow-sm border border-[#989898]/20 transition-all duration-700 ease-out"
+            style={{
+              opacity: formVisible ? 1 : 0,
+              transform: formVisible ? "scale(1)" : "scale(0.9)",
+            }}
+          >
             {isSuccess ? (
               <div className="text-center py-10">
                 <div className="w-20 h-20 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-6">
@@ -467,6 +544,19 @@ const Promo67 = () => {
           </div>
         </div>
       </section>
+
+      {/* ===== FOOTER ===== */}
+      <footer className="py-6 px-6 bg-[#000000] text-center">
+        <a
+          href="https://t.me/webgrade_uz"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center justify-center gap-2 border border-[#989898]/30 text-[#989898] text-sm font-medium px-5 py-2.5 rounded-lg hover:bg-white hover:text-[#000000] transition"
+        >
+          <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+          Telegram orqali bog'lanish
+        </a>
+      </footer>
     </div>
   );
 };
