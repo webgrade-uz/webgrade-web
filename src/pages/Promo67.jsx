@@ -6,7 +6,7 @@ import Squares from "../components/Squares";
 const STEPS = [
   { num: "01", title: "Ariza qoldirasiz", desc: "Formani to'ldiring yoki Telegram orqali yozing — 1 daqiqa vaqtingizni oladi" },
   { num: "02", title: "Kelishuv", desc: "Loyihangiz haqida gaplashamiz, ehtiyojlaringizni aniqlaymiz" },
-  { num: "03", title: "Dasturlash bosqichi", desc: "Tasdiqlangan dizayn asosida sayt kodlanadi" },
+  { num: "03", title: "Dasturlash bosqichi", desc: "Tavsiya etiladigan dizayn asosida sayt kodlanadi" },
   { num: "04", title: "Sayt topshiriladi", desc: "Tayyor sayt hosting va domenga joylashtiriladi" },
 ];
 
