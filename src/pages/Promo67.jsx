@@ -263,7 +263,7 @@ const Promo67 = () => {
       )}
 
       {/* ===== HERO ===== */}
-      <section className="h-screen flex items-center justify-center px-6 relative overflow-hidden">
+      <section className="min-h-[600px] py-40 md:py-40 pb-52 md:pb-40 flex items-center justify-center px-6 relative overflow-hidden">
         <div className="absolute inset-0">
           <Squares
             speed={0.5}
