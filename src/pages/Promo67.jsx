@@ -437,7 +437,15 @@ const Promo67 = () => {
       </section>
 
       {/* ===== KONTAKT FORM ===== */}
-      <section id="promo-contact" className="py-24 md:py-44 px-6 bg-[#f1f1f1] text-[#000000] border-t border-[#000000]">
+      <section id="promo-contact" className="py-24 md:py-44 px-6 bg-[#f1f1f1] text-[#000000] border-t border-[#000000] relative overflow-hidden">
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute bottom-0 left-[20%] -translate-x-1/2 w-[80%] h-[500px]" style={{ background: 'radial-gradient(ellipse at 50% 100%, rgba(30,80,220,0.55) 0%, rgba(30,80,220,0.25) 40%, transparent 70%)', animation: 'aurora1 3s ease-in-out infinite' }} />
+          <div className="absolute bottom-0 left-[75%] -translate-x-1/2 w-[80%] h-[450px]" style={{ background: 'radial-gradient(ellipse at 50% 100%, rgba(255,200,0,0.45) 0%, rgba(255,200,0,0.18) 40%, transparent 70%)', animation: 'aurora2 4s ease-in-out infinite' }} />
+          <div className="absolute bottom-0 left-[50%] -translate-x-1/2 w-[100%] h-[400px]" style={{ background: 'radial-gradient(ellipse at 50% 100%, rgba(50,100,255,0.4) 0%, rgba(50,100,255,0.15) 40%, transparent 70%)', animation: 'aurora3 2.5s ease-in-out infinite' }} />
+          <div className="absolute bottom-0 left-[80%] -translate-x-1/2 w-[70%] h-[550px]" style={{ background: 'radial-gradient(ellipse at 50% 100%, rgba(30,80,220,0.5) 0%, rgba(30,80,220,0.2) 35%, transparent 65%)', animation: 'aurora2 3.5s ease-in-out 0.5s infinite' }} />
+          <div className="absolute bottom-0 left-[15%] -translate-x-1/2 w-[70%] h-[480px]" style={{ background: 'radial-gradient(ellipse at 50% 100%, rgba(255,180,0,0.5) 0%, rgba(255,180,0,0.2) 35%, transparent 65%)', animation: 'aurora1 2.8s ease-in-out 1s infinite' }} />
+          <div className="absolute bottom-0 left-[50%] -translate-x-1/2 w-[160%] h-[350px]" style={{ background: 'radial-gradient(ellipse at 50% 100%, rgba(255,210,50,0.35) 0%, rgba(255,210,50,0.12) 40%, transparent 70%)', animation: 'aurora3 3.2s ease-in-out 0.8s infinite' }} />
+        </div>
         <div className="max-w-lg mx-auto">
           <div className="text-center mb-10">
             <h2 className="text-3xl md:text-4xl font-bold">Buyurtma berish</h2>
@@ -552,6 +560,20 @@ const Promo67 = () => {
 
       {/* ===== FOOTER ===== */}
       <footer className="py-6 px-6 bg-[#000000] text-center">
+        <style>{`
+          @keyframes aurora1 {
+            0%, 100% { opacity: 0.3; transform: translateX(-10%) scaleX(1); }
+            50% { opacity: 0.7; transform: translateX(10%) scaleX(1.2); }
+          }
+          @keyframes aurora2 {
+            0%, 100% { opacity: 0.2; transform: translateX(10%) scaleX(1.1); }
+            50% { opacity: 0.6; transform: translateX(-10%) scaleX(0.9); }
+          }
+          @keyframes aurora3 {
+            0%, 100% { opacity: 0.25; transform: translateX(5%) scaleX(1); }
+            50% { opacity: 0.5; transform: translateX(-5%) scaleX(1.3); }
+          }
+        `}</style>
         <a
           href="https://t.me/webgradeuz"
           target="_blank"
