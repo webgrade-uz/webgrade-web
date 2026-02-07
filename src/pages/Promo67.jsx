@@ -258,7 +258,7 @@ const Promo67 = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#000000] text-white">
+    <div className="min-h-screen bg-[#000000] text-white overflow-x-hidden">
       {toast && (
         <Toast
           message={toast.message}
@@ -279,7 +279,7 @@ const Promo67 = () => {
           />
         </div>
 
-        <div className="relative z-10 text-center max-w-2xl mx-auto -mt-[20%] md:mt-0">
+        <div className="relative z-10 text-center max-w-2xl mx-auto -mt-[10%] md:mt-0">
           <div className="inline-flex items-center gap-2 text-[#989898] text-sm font-medium tracking-widest uppercase mb-8">
             <Sparkles className="w-4 h-4" />
             <span>Cheklangan taklif</span>
@@ -439,12 +439,12 @@ const Promo67 = () => {
       {/* ===== KONTAKT FORM ===== */}
       <section id="promo-contact" className="py-24 md:py-44 px-6 bg-[#f1f1f1] text-[#000000] border-t border-[#000000] relative overflow-hidden">
         <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute bottom-0 left-[20%] -translate-x-1/2 w-[80%] h-[500px]" style={{ background: 'radial-gradient(ellipse at 50% 100%, rgba(30,80,220,0.55) 0%, rgba(30,80,220,0.25) 40%, transparent 70%)', animation: 'aurora1 3s ease-in-out infinite' }} />
-          <div className="absolute bottom-0 left-[75%] -translate-x-1/2 w-[80%] h-[450px]" style={{ background: 'radial-gradient(ellipse at 50% 100%, rgba(255,200,0,0.45) 0%, rgba(255,200,0,0.18) 40%, transparent 70%)', animation: 'aurora2 4s ease-in-out infinite' }} />
-          <div className="absolute bottom-0 left-[50%] -translate-x-1/2 w-[100%] h-[400px]" style={{ background: 'radial-gradient(ellipse at 50% 100%, rgba(50,100,255,0.4) 0%, rgba(50,100,255,0.15) 40%, transparent 70%)', animation: 'aurora3 2.5s ease-in-out infinite' }} />
-          <div className="absolute bottom-0 left-[80%] -translate-x-1/2 w-[70%] h-[550px]" style={{ background: 'radial-gradient(ellipse at 50% 100%, rgba(30,80,220,0.5) 0%, rgba(30,80,220,0.2) 35%, transparent 65%)', animation: 'aurora2 3.5s ease-in-out 0.5s infinite' }} />
-          <div className="absolute bottom-0 left-[15%] -translate-x-1/2 w-[70%] h-[480px]" style={{ background: 'radial-gradient(ellipse at 50% 100%, rgba(255,180,0,0.5) 0%, rgba(255,180,0,0.2) 35%, transparent 65%)', animation: 'aurora1 2.8s ease-in-out 1s infinite' }} />
-          <div className="absolute bottom-0 left-[50%] -translate-x-1/2 w-[160%] h-[350px]" style={{ background: 'radial-gradient(ellipse at 50% 100%, rgba(255,210,50,0.35) 0%, rgba(255,210,50,0.12) 40%, transparent 70%)', animation: 'aurora3 3.2s ease-in-out 0.8s infinite' }} />
+          <div className="absolute bottom-0 left-[20%] -translate-x-1/2 w-[80%] h-[250px] md:h-[500px]" style={{ background: 'radial-gradient(ellipse at 50% 100%, rgba(30,80,220,0.55) 0%, rgba(30,80,220,0.25) 40%, transparent 70%)', animation: 'aurora1 3s ease-in-out infinite' }} />
+          <div className="absolute bottom-0 left-[75%] -translate-x-1/2 w-[80%] h-[220px] md:h-[450px]" style={{ background: 'radial-gradient(ellipse at 50% 100%, rgba(255,200,0,0.45) 0%, rgba(255,200,0,0.18) 40%, transparent 70%)', animation: 'aurora2 4s ease-in-out infinite' }} />
+          <div className="absolute bottom-0 left-[50%] -translate-x-1/2 w-[100%] h-[200px] md:h-[400px]" style={{ background: 'radial-gradient(ellipse at 50% 100%, rgba(50,100,255,0.4) 0%, rgba(50,100,255,0.15) 40%, transparent 70%)', animation: 'aurora3 2.5s ease-in-out infinite' }} />
+          <div className="absolute bottom-0 left-[80%] -translate-x-1/2 w-[70%] h-[280px] md:h-[550px]" style={{ background: 'radial-gradient(ellipse at 50% 100%, rgba(30,80,220,0.5) 0%, rgba(30,80,220,0.2) 35%, transparent 65%)', animation: 'aurora2 3.5s ease-in-out 0.5s infinite' }} />
+          <div className="absolute bottom-0 left-[15%] -translate-x-1/2 w-[70%] h-[240px] md:h-[480px]" style={{ background: 'radial-gradient(ellipse at 50% 100%, rgba(255,180,0,0.5) 0%, rgba(255,180,0,0.2) 35%, transparent 65%)', animation: 'aurora1 2.8s ease-in-out 1s infinite' }} />
+          <div className="absolute bottom-0 left-[50%] -translate-x-1/2 w-[160%] h-[180px] md:h-[350px]" style={{ background: 'radial-gradient(ellipse at 50% 100%, rgba(255,210,50,0.35) 0%, rgba(255,210,50,0.12) 40%, transparent 70%)', animation: 'aurora3 3.2s ease-in-out 0.8s infinite' }} />
         </div>
         <div className="max-w-lg mx-auto">
           <div className="text-center mb-10">
